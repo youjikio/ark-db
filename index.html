@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARK: Survival Ascended マップ別データベース</title>
+<style>
+  :root{
+    --bg:#11150f; --bg2:#181d15; --card:#1e2419; --line:#33402a;
+    --fg:#e8e6df; --dim:#9ba392; --accent:#c8a33c; --accent2:#7fb04a;
+    --danger:#d9694a; --chip:#2a331f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI","Yu Gothic UI","Meiryo",system-ui,sans-serif;
+       background:var(--bg);color:var(--fg);line-height:1.7}
+  a{color:var(--accent2)}
+  header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#1b2116,#161b12);
+         border-bottom:1px solid var(--line);padding:12px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  header h1{font-size:17px;margin:0;letter-spacing:.02em}
+  header h1 small{color:var(--dim);font-weight:400;font-size:12px;margin-left:8px}
+  #q{flex:1;min-width:200px;max-width:420px;padding:8px 12px;border-radius:8px;
+     border:1px solid var(--line);background:#0e120c;color:var(--fg);font-size:14px}
+  #q::placeholder{color:#6f7a66}
+  .wrap{display:flex;align-items:flex-start;gap:0}
+  nav{width:250px;flex:0 0 250px;position:sticky;top:57px;height:calc(100vh - 57px);
+      overflow:auto;border-right:1px solid var(--line);background:var(--bg2);padding:10px}
+  nav button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--fg);
+      padding:9px 10px;border-radius:8px;cursor:pointer;font-size:14px;font-family:inherit;line-height:1.4}
+  nav button:hover{background:#242c1c}
+  nav button.on{background:var(--chip);box-shadow:inset 3px 0 0 var(--accent)}
+  nav .stars{color:var(--accent);font-size:11px;letter-spacing:1px}
+  nav .kind{display:block;color:var(--dim);font-size:11px}
+  nav .grp{color:var(--dim);font-size:11px;margin:14px 0 4px 10px;letter-spacing:.08em}
+  main{flex:1;min-width:0;padding:20px 24px 80px;max-width:1100px}
+  h2.title{font-size:25px;margin:0 0 2px}
+  h2.title span{font-size:14px;color:var(--dim);margin-left:10px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}
+  .chip{background:var(--chip);border:1px solid var(--line);border-radius:999px;
+        padding:3px 11px;font-size:12px;color:#cfd6c5}
+  .chip.hot{border-color:var(--accent);color:var(--accent)}
+  .lead{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+        border-radius:10px;padding:12px 16px;margin-bottom:20px}
+  section{margin-bottom:26px;scroll-margin-top:72px}
+  section>h3{font-size:15px;margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line);
+             color:var(--accent);letter-spacing:.04em}
+  .toc{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 20px;padding:10px 12px;
+       background:var(--bg2);border:1px solid var(--line);border-radius:10px}
+  .toc b{font-size:11px;color:var(--dim);letter-spacing:.08em;margin-right:4px}
+  .toc a{font-size:12.5px;color:#cfd6c5;text-decoration:none;background:var(--chip);
+         border:1px solid var(--line);border-radius:999px;padding:3px 11px}
+  .toc a:hover{border-color:var(--accent);color:var(--accent)}
+  .toc input[type="search"]{background:#0e120c;border:1px solid var(--line);color:var(--fg);
+       border-radius:999px;padding:4px 12px;font-size:12.5px;min-width:220px;font-family:inherit}
+  .toc input[type="search"]:focus{outline:none;border-color:var(--accent)}
+  #totop{position:fixed;right:18px;bottom:18px;z-index:30;background:var(--chip);border:1px solid var(--line);
+         color:var(--dim);border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:16px;display:none}
+  #totop:hover{color:var(--accent);border-color:var(--accent)}
+  table.home td.nm{font-weight:600;cursor:pointer;color:#e8e6df}
+  table.home tr:hover td{background:#222a1b}
+  table.home td.nm:hover{color:var(--accent)}
+  .idx{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .idx .card h4{color:var(--accent)}
+  .idx .card ul{margin:4px 0 0;padding-left:16px;font-size:12.5px;color:#cdd3c4}
+  .idx .card li{margin:2px 0;cursor:pointer}
+  .idx .card li:hover{color:var(--accent)}
+  .idx .card li .c{font-family:Consolas,monospace;color:var(--accent);font-size:12px}
+  .homecards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:8px}
+  .homecards .card{cursor:pointer}
+  .homecards .card:hover{border-color:var(--accent)}
+  .homecards .card .big{font-size:15px;font-weight:600}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .card h4{margin:0 0 6px;font-size:14px}
+  .card .sub{color:var(--accent2);font-size:12px;font-family:Consolas,monospace}
+  .card p{margin:5px 0;font-size:13px;color:#d3d8cb}
+  .card .pro{color:#a9cf8a;font-size:13px;margin:4px 0}
+  .card .prep{font-size:12.5px;color:#e0d6b4;background:#241f12;border:1px solid #4a3f22;
+              border-radius:6px;padding:6px 9px;margin:8px 0}
+  .card .prep b{color:var(--accent)}
+  .card .abil{font-size:12.5px;color:#cfe0d6;background:#16241d;border:1px solid #2f5142;
+              border-radius:6px;padding:6px 9px;margin:8px 0}
+  .card .abil b{color:var(--accent2)}
+  a.ilink{color:#9fd0e8;text-decoration:none;border-bottom:1px dotted #4f7f96}
+  a.ilink:hover{color:var(--accent);border-color:var(--accent)}
+  .card .con{color:#e0a08c;font-size:13px;margin:4px 0}
+  ul.plain{margin:6px 0 0;padding-left:18px;font-size:13px;color:#d3d8cb}
+  ul.plain li{margin:3px 0}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:left;vertical-align:top}
+  th{color:var(--dim);font-weight:600;font-size:12px;white-space:nowrap}
+  td.coord{font-family:Consolas,monospace;color:var(--accent);white-space:nowrap}
+  .dg{font-size:11px;border-radius:5px;padding:1px 7px;white-space:nowrap}
+  .dg-低{background:#25361f;color:#a9cf8a}.dg-中{background:#3a3620;color:#d9c77a}
+  .dg-高{background:#42291f;color:#e0a08c}.dg-最高{background:#4a1f1f;color:#ff9b86}
+  .code{display:flex;gap:8px;align-items:flex-start;background:#0e120c;border:1px solid var(--line);
+        border-radius:8px;padding:8px 10px;margin:6px 0}
+  .code code{font-family:Consolas,monospace;font-size:12.5px;color:#e8d9a0;flex:1;word-break:break-all;white-space:pre-wrap}
+  .code button{background:var(--chip);border:1px solid var(--line);color:var(--dim);border-radius:6px;
+        font-size:11px;padding:3px 9px;cursor:pointer;font-family:inherit}
+  .code button:hover{color:var(--fg);border-color:var(--accent)}
+  .desc{font-size:12.5px;color:var(--dim);margin:0 0 10px 2px}
+  .hit{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin-bottom:9px;cursor:pointer}
+  .hit:hover{border-color:var(--accent)}
+  .hit b{color:var(--accent)}
+  .hit .where{font-size:11px;color:var(--dim)}
+  mark{background:#5a4a12;color:#ffe9a8;padding:0 2px;border-radius:3px}
+  .note{font-size:12px;color:var(--dim);margin-top:8px}
+  /* 地図 */
+  .mapwrap{position:relative;display:block;width:100%;max-width:760px;margin:0 auto;
+           border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#0d110b}
+  .mapwrap img{display:block;width:100%;height:auto}
+  .pin{position:absolute;width:11px;height:11px;margin:-6px 0 0 -6px;border-radius:50%;
+       border:1.5px solid rgba(0,0,0,.65);cursor:help;box-shadow:0 0 4px rgba(0,0,0,.6)}
+  .pin-cave{background:#e2574c}.pin-base{background:#4f9ae0}.pin-res{background:#e8c341}
+  /* 資源マップ：形でも見分けられるようにする */
+  .pin.sq{border-radius:2px;width:10px;height:10px;margin:-5px 0 0 -5px}
+  .pin.dia{border-radius:1px;transform:rotate(45deg);width:10px;height:10px;margin:-5px 0 0 -5px}
+  .pin.ring{border-width:2.5px;border-color:#1b2116}
+  .pin.star{width:13px;height:13px;margin:-7px 0 0 -7px;border-radius:50%;border:2px solid #0d110b}
+  .sw.sq{border-radius:2px}.sw.dia{border-radius:1px;transform:rotate(45deg)}
+  .sw.ring{border:2px solid #0d110b}.sw.star{width:12px;height:12px}
+  .maptools .solo{background:none;border:1px solid var(--line);color:var(--dim);border-radius:5px;
+                  font-size:10px;padding:1px 6px;margin-left:4px;cursor:pointer;font-family:inherit}
+  .maptools .solo:hover{color:var(--accent);border-color:var(--accent)}
+  .pin-obe{background:#5ec27a}
+  .mapwrap.h-cave .pin-cave,.mapwrap.h-base .pin-base,.mapwrap.h-res .pin-res,.mapwrap.h-obe .pin-obe{display:none}
+  .maptools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;margin:10px 0 6px;font-size:12.5px}
+  .maptools label{display:flex;gap:5px;align-items:center;cursor:pointer;color:#cdd3c4}
+  .maptools .sw{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .readout{font-family:Consolas,monospace;font-size:12px;color:var(--accent);min-width:150px;text-align:center}
+  /* 生物一覧 */
+  .spawn{columns:2;column-gap:18px;font-size:12.5px;color:#d3d8cb}
+  .spawn li{break-inside:avoid;margin:2px 0;list-style:disc;margin-left:18px}
+  a.dexlink{color:#d3d8cb;text-decoration:none;border-bottom:1px dotted var(--accent2)}
+  a.dexlink:hover{color:var(--accent2)}
+  .wlink{color:#6f7a66;text-decoration:none;font-size:11px}
+  a.wlink:hover{color:var(--accent)}
+  /* エングラム辞典：効果・素材 */
+  .edesc{font-size:11.5px;color:#9fae93;margin-top:3px;line-height:1.5}
+  .edesc.en{color:#78856e;font-style:italic}
+  td.mats{font-size:12px;line-height:1.7;white-space:nowrap}
+  td.mats .q{font-family:Consolas,monospace;color:var(--accent);margin-left:3px}
+  code.ic{font-family:Consolas,monospace;font-size:12px;color:#e8d9a0;background:#0e120c;
+          border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0}
+  details summary{cursor:pointer;font-size:13px;color:#d3d8cb}
+  details summary .sw{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px}
+  .coordlist{font-family:Consolas,monospace;font-size:12px;color:var(--accent);
+             line-height:1.9;margin:8px 0 2px;word-break:break-word}
+  @media(max-width:700px){.spawn{columns:1}}
+  .err{background:#3a1d18;border:1px solid #6b3a2c;border-radius:10px;padding:16px;font-size:14px}
+  @media(max-width:820px){
+    .wrap{flex-direction:column}
+    nav{width:100%;flex:none;position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+    main{padding:16px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="home-link" style="cursor:pointer" title="目次へ">🦖 ARK: Survival Ascended マップ別DB<small id="upd"></small></h1>
+  <input id="q" type="search" placeholder="全マップ横断検索（例：金属 / 沼洞窟 / ワイバーン / クライオ）">
+</header>
+<div class="wrap">
+  <nav id="nav"></nav>
+  <main id="main"></main>
+</div>
+<button id="totop" title="ページの先頭へ戻る">↑</button>
+
+<script src="data/ark_maps.js"></script>
+<script src="data/ark_spawns.js"></script>
+<script src="data/ark_creatures.js"></script>
+<script src="data/ark_systems.js"></script>
+<script src="data/ark_resource_nodes.js"></script>
+<script src="data/ark_items.js"></script>
+<script src="data/ark_engrams.js"></script>
+<script>
+const $ = (s,r=document)=>r.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let DATA=null, SPAWNS=null, DEX=null, SYS=null, MODS=null, NODES=null, LEGEND={}, ITEMS=null, ITEM_RE=null,
+    ENG=null, engFilter={lv:"",src:"",q:""},
+    view="home", dexFilter={tag:"",map:"",q:""}, resMapId=null, dexFocus=null, resSolo=null;
+
+// 左メニューの「エングラム一覧」の項目（種類, 表示名, 説明）
+const ENG_NAV=[
+  ["lv:1-20","Lv1〜20","序盤：道具・たき火・寝袋"],
+  ["lv:21-40","Lv21〜40","石の建材・鍛冶場・弓"],
+  ["lv:41-60","Lv41〜60","金属・電気・上位サドル"],
+  ["lv:61-80","Lv61〜80","製作台・化学台・重装備"],
+  ["lv:81-100","Lv81〜100","終盤の装備と大型サドル"],
+  ["q:サドル","サドル","騎乗に必要な解禁レベル"],
+  ["q:建材","建材（わら〜テック）","家づくりの段階"],
+  ["q:作業台","作業台","臼・鍛冶場・製作台など"],
+  ["q:防具","防具","布・皮・毛皮・金属ほか"],
+  ["src:MOD","MODのエングラム","S+／SpyGlass／Dino Storage ほか"]
+];
+
+// アーティファクト索引に使う一覧（英名, 日本語読み）
+const ART=[["Hunter","ハンター"],["Pack","パック"],["Clever","クレバー"],["Skylord","スカイロード"],
+  ["Devourer","デバウアー"],["Massive","マッシブ"],["Immune","イミューン"],["Strong","ストロング"],
+  ["Cunning","カニング"],["Brute","ブルート"],["Devious","デビアス"],["Crag","クラッグ"],
+  ["Gatekeeper","ゲートキーパー"],["Destroyer","デストロイヤー"],["Depths","デプス"],
+  ["Shadows","シャドウ"],["Stalker","ストーカー"],["Chaos","カオス"],["Growth","グロウス"],["Void","ヴォイド"]];
+
+function boot(d){
+  DATA=d;
+  SPAWNS=(window.ARK_SPAWNS&&window.ARK_SPAWNS.maps)||null;
+  DEX=(window.ARK_CREATURES&&window.ARK_CREATURES.creatures)||null;
+  NODES=(window.ARK_NODES&&window.ARK_NODES.maps)||null;
+  LEGEND=(window.ARK_NODES&&window.ARK_NODES._meta&&window.ARK_NODES._meta.legend)||{};
+  initItems();
+  ENG=(window.ARK_ENGRAMS&&window.ARK_ENGRAMS.engrams)||null;
+  SYS=(window.ARK_SYS&&window.ARK_SYS.systems)||null;
+  MODS=(window.ARK_SYS&&window.ARK_SYS.mods)||null;
+  $("#upd").textContent = "　更新 " + d.meta.updated;
+  buildNav();
+  render();
+}
+function fail(msg){
+  $("#main").innerHTML = '<div class="err"><b>データを読み込めませんでした。</b><br>'+esc(msg)+
+    '<br><br>data/ark_maps.js が無い場合は build.ps1 を実行して JSON から生成してください。</div>';
+}
+// data/ark_maps.js（window.ARK_DATA）優先。無ければ fetch を試す（http配信時のみ成功）
+if (window.ARK_DATA) boot(window.ARK_DATA);
+else fetch("data/ark_maps.json").then(r=>r.json()).then(boot)
+      .catch(e=>fail("file:// から直接開くと JSON を読めません（"+e.message+"）"));
+
+/* 左メニューのエングラム一覧（クリックで絞り込んだ専用ページを開く） */
+function engCount(v){
+  const i=v.indexOf(":"), k=v.slice(0,i), val=v.slice(i+1);
+  if(k==="lv"){ const [a,b]=val.split("-"); return ENG.filter(e=>e.lv>=+a&&e.lv<=+b).length; }
+  if(k==="src") return ENG.filter(e=>(e.src.indexOf("MOD：")===0?"MOD":e.src)===val).length;
+  if(k==="q"){ const s=val.toLowerCase();
+    return ENG.filter(e=>[e.ja,e.en,e.cat,e.made,e.src,e.note,(e.pre||[]).join(" ")].join(" ").toLowerCase().indexOf(s)>=0).length; }
+  return ENG.length;
+}
+function engNavActive(v){
+  if(view!=="engrams") return false;
+  const i=v.indexOf(":"), k=v.slice(0,i), val=v.slice(i+1);
+  return (k==="lv"&&engFilter.lv===val)||(k==="src"&&engFilter.src===val)||(k==="q"&&engFilter.q===val);
+}
+function engNav(){
+  return '<div class="grp">エングラム一覧</div>' + ENG_NAV.map(x=>
+    '<button data-v="engrams" data-engnav="'+esc(x[0])+'" class="'+(engNavActive(x[0])?"on":"")+'">'+
+    esc(x[1])+'<span class="kind">'+esc(x[2])+'（'+engCount(x[0])+'）</span></button>').join("");
+}
+
+function buildNav(){
+  const n=$("#nav");
+  const nodeCount=NODES?Object.values(NODES).reduce((a,m)=>a+Object.values(m).reduce((b,x)=>b+x.length,0),0):0;
+  let h = '<button data-v="home" class="'+(view==="home"?"on":"")+'">🏠 目次（ホーム）<span class="kind">やりたいこと別の入口・各種索引</span></button>' +
+    '<div class="grp">まず読む</div>' +
+    (DATA.beginner_guide?'<button data-v="guide" class="'+(view==="guide"?"on":"")+'">📘 初心者ガイド<span class="kind">最初の30分／初テイム／拠点／Q&amp;A</span></button>':'') +
+    (SYS?'<button data-v="sys" class="'+(view==="sys"?"on":"")+'">📐 システム解説<span class="kind">ステータス／エングラム／制作アイテム</span></button>':'') +
+    '<div class="grp">調べる</div>' +
+    (DEX?'<button data-v="dex" class="'+(view==="dex"?"on":"")+'">🦕 恐竜図鑑<span class="kind">'+DEX.length+'種／テイム・準備・能力・サドルLv</span></button>':'') +
+    (NODES?'<button data-v="resmap" class="'+(view==="resmap"?"on":"")+'">🗺 資源マップ<span class="kind">'+nodeCount.toLocaleString()+'ヵ所の座標を色分けピン</span></button>':'') +
+    (ENG?'<button data-v="engrams" data-engnav="all:" class="'+(view==="engrams"&&!engFilter.lv&&!engFilter.src&&!engFilter.q?"on":"")+'">📜 エングラム辞典<span class="kind">'+ENG.length+'件／必要Lv・EP・前提・MOD込み</span></button>':'') +
+    (ENG?engNav():'') +
+    '<div class="grp">マップ（'+DATA.maps.length+'）</div>';
+  DATA.maps.forEach(m=>{
+    h += '<button data-v="'+m.id+'" class="'+(view===m.id?"on":"")+'">'+esc(m.name_ja)+
+         '<span class="kind"><span class="stars">'+"★".repeat(m.beginner)+"☆".repeat(5-m.beginner)+'</span> '+esc(m.kind)+'</span></button>';
+  });
+  h += '<div class="grp">サーバーを動かす人向け</div>' +
+    '<button data-v="server" class="'+(view==="server"?"on":"")+'">⚙️ サーバー設定・コマンド<span class="kind">ini／管理者コマンド／運用の型</span></button>' +
+    (DATA.client_commands?'<button data-v="client" class="'+(view==="client"?"on":"")+'">🖥 個人PCのコマンド<span class="kind">雲/影を切って軽く／明るく／FPS計測</span></button>':'') +
+    (MODS?'<button data-v="mods" class="'+(view==="mods"?"on":"")+'">🧩 MOD・DLCの話<span class="kind">入れ方／おすすめ／有料DLC一覧</span></button>':'') +
+    (DATA.asa_notes?'<button data-v="notes" class="'+(view==="notes"?"on":"")+'">🌍 海外情報メモ<span class="kind">UE5.8更新／ASA新生物／海外の定番</span></button>':'');
+  n.innerHTML=h;
+  n.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    dexFocus=null;
+    const v=b.dataset.engnav;
+    if(v!==undefined){                                   // エングラム一覧は絞り込み状態で開く
+      const i=v.indexOf(":"), k=v.slice(0,i), val=v.slice(i+1);
+      engFilter={lv:"",src:"",q:""};
+      if(k==="lv") engFilter.lv=val; else if(k==="src") engFilter.src=val; else if(k==="q") engFilter.q=val;
+    }
+    go(b.dataset.v);
+  });
+}
+
+function go(id){ if(id!=="dex") dexFocus=null; view=id; $("#q").value=""; buildNav(); render(); window.scrollTo(0,0); }
+
+function render(){
+  const q=$("#q").value.trim();
+  if(q){ renderSearch(q); return; }
+  if(view==="home"){ renderHome(); return; }
+  if(view==="guide"){ renderGuide(); return; }
+  if(view==="dex"){ renderDex(); return; }
+  if(view==="resmap"){ renderResMap(); return; }
+  if(view==="engrams"){ renderEngrams(); return; }
+  if(view==="sys"){ renderSys(); return; }
+  if(view==="mods"){ renderMods(); return; }
+  if(view==="server"){ renderServer(); return; }
+  if(view==="client"){ renderClient(); return; }
+  if(view==="notes"){ renderNotes(); return; }
+  const m=DATA.maps.find(x=>x.id===view) || DATA.maps[0];
+  renderMap(m);
+}
+
+function card(inner){ return '<div class="card">'+inner+'</div>'; }
+
+function renderMap(m){
+  let h='';
+  h+='<h2 class="title">'+esc(m.name_ja)+'<span>'+esc(m.name_en)+'</span></h2>';
+  h+='<div class="meta-row">'+
+     '<span class="chip hot">初心者度 '+"★".repeat(m.beginner)+"☆".repeat(5-m.beginner)+'</span>'+
+     '<span class="chip">'+esc(m.kind)+'</span>'+
+     '<span class="chip">配信 '+esc(m.release)+'</span>'+
+     '<span class="chip">'+esc(m.canon)+'</span>'+
+     '<span class="chip">広さ '+esc(m.size)+'</span>'+
+     '<span class="chip">マップ名 <code>'+esc(m.map_code)+'</code></span>'+
+     (m.current_use?'<span class="chip hot">運用中：'+esc(m.current_use)+'</span>':'')+
+     '</div>';
+  h+='<div class="lead">'+esc(m.summary)+'<div class="note">🌡 '+esc(m.climate)+'</div></div>';
+
+  h+=toc([].concat(m.image?[["s-map","地図"]]:[], m.install?[["s-install","導入方法"]]:[],
+      m.route?[["s-route","進行ルート"]]:[], m.hazards?[["s-haz","注意・ギミック"]]:[],[
+      ["s-region","地域"],["s-base","拠点候補"],["s-res","資源"],["s-cre","おすすめ生物"]],
+      (SPAWNS&&SPAWNS[m.id])?[["s-spawn","出現生物一覧"]]:[],[
+      ["s-cave","洞窟・アーティファクト"],["s-boss","ボス"],["s-tip","攻略のコツ"],
+      ["s-set","マップ別設定"],["s-link","参考リンク"]]));
+
+  h+=mapSection(m);
+
+  if(m.install){
+    h+='<section id="s-install"><h3>導入方法（このサーバー）</h3>';
+    h+=codeBlock(m.install.gameusersettings)+codeBlock(m.install.launch_args)+codeBlock("マップ名： "+m.install.map_name);
+    h+='<p class="desc">'+esc(m.install.note)+'</p></section>';
+  }
+
+  if(m.route) h+='<section id="s-route"><h3>進行ルート（このマップの攻め方）</h3><div class="cards">'+
+      m.route.map(r=>card('<h4>'+esc(r.h)+'</h4><p>'+il(r.body)+'</p>')).join("")+'</div></section>';
+
+  if(m.hazards) h+='<section id="s-haz"><h3>注意・ギミック（死因と仕掛け）</h3><ul class="plain">'+
+      m.hazards.map(t=>'<li>'+il(t)+'</li>').join("")+'</ul></section>';
+
+  h+=sec("地域（バイオーム）", m.regions.map(r=>card('<h4>'+esc(r.name)+'</h4><p>'+il(r.note)+'</p>')).join(""), "s-region");
+
+  h+=sec("拠点候補", m.bases.map(b=>card(
+      '<h4>'+esc(b.name)+'</h4><div class="sub">'+esc(b.coord||"—")+'　/　'+esc(b.level)+'</div>'+
+      '<p class="pro">◎ '+il(b.pros)+'</p><p class="con">△ '+il(b.cons)+'</p>')).join(""), "s-base");
+
+  h+=sec("資源の採れる場所", m.resources.map(r=>card(
+      '<h4>'+esc(r.name)+'</h4><ul class="plain">'+r.where.map(w=>'<li>'+esc(w)+'</li>').join("")+'</ul>'+
+      (r.note?'<p class="note">'+esc(r.note)+'</p>':''))).join(""), "s-res");
+  if(NODES&&NODES[m.id]) h+='<p class="note" style="margin:-16px 0 20px">'+
+      '<a href="#" class="goresmap" data-m="'+esc(m.id)+'">▶ 座標つきで見る：資源マップ（'+
+      Object.values(NODES[m.id]).reduce((a,x)=>a+x.length,0)+'ヵ所）</a></p>';
+
+  h+=sec("注目の生物（序盤テイム・危険・固有）", [
+      card('<h4>序盤に狙うテイム</h4><ul class="plain">'+m.creatures.starter.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'),
+      card('<h4>危険生物</h4><ul class="plain">'+m.creatures.danger.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'),
+      card('<h4>このマップならでは</h4><ul class="plain">'+m.creatures.unique.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>')
+    ].join(""), "s-cre");
+  if(DEX) h+='<p class="note" style="margin:-16px 0 20px">'+
+      '<a href="#" class="godex" data-mname="'+esc(m.name_ja.replace(/（.*$/,"").replace(/★.*$/,""))+'">'+
+      '▶ 恐竜図鑑でこのマップの生き物だけを見る（テイム方法・準備・能力つき）</a></p>';
+
+  h+=spawnSection(m);
+
+  h+='<section id="s-cave"><h3>洞窟・アーティファクト</h3><table><tr><th>場所</th><th>アーティファクト</th><th>座標 lat/lon</th><th>危険度</th><th>メモ</th></tr>'+
+     m.caves.map(c=>'<tr><td>'+esc(c.name)+'</td><td>'+esc(c.artifact||"—")+'</td><td class="coord">'+esc(c.coord||"—")+
+     '</td><td>'+(c.danger&&c.danger!=="—"?'<span class="dg dg-'+esc(c.danger)+'">'+esc(c.danger)+'</span>':"—")+
+     '</td><td>'+il(c.note||"")+'</td></tr>').join("")+
+     '</table><p class="note">'+esc(DATA.meta.coord_note)+'</p></section>';
+
+  h+='<section id="s-boss"><h3>ボス</h3><table><tr><th>ボス</th><th>必要アーティファクト</th><th>メモ</th></tr>'+
+     m.bosses.map(b=>'<tr><td>'+esc(b.name)+'</td><td>'+esc(b.artifacts)+'</td><td>'+il(b.note)+'</td></tr>').join("")+
+     '</table>';
+  const trib=m.bosses.filter(b=>b.tribute);
+  if(trib.length){
+    h+='<p class="desc">召喚に必要なもの（公式Wikiの Tribute Requirements より）。γ＝ガンマ（易）／β／α＝最難。「-」は不要。</p>';
+    trib.forEach(b=>{
+      h+='<details><summary>'+esc(b.name)+' の必要素材'+(b.tribute_src?'<span class="note" style="margin-left:8px">'+esc(b.tribute_src)+'</span>':'')+'</summary>'+
+         '<table><tr><th>必要なもの</th><th>γ</th><th>β</th><th>α</th></tr>'+
+         b.tribute.map(r=>'<tr><td>'+il(r.name)+'</td><td class="coord">'+esc(r.g||"-")+'</td><td class="coord">'+esc(r.b||"-")+'</td><td class="coord">'+esc(r.a||"-")+'</td></tr>').join("")+
+         '</table></details>';
+    });
+  }
+  h+='</section>';
+
+  h+='<section id="s-tip"><h3>攻略のコツ</h3><ul class="plain">'+m.tips.map(t=>'<li>'+il(t)+'</li>').join("")+'</ul></section>';
+  h+='<section id="s-set"><h3>このマップ向けのサーバー設定</h3><ul class="plain">'+m.map_settings.map(t=>'<li>'+il(t)+'</li>').join("")+'</ul></section>';
+  h+='<section id="s-link"><h3>参考リンク</h3><ul class="plain">'+m.links.map(l=>'<li><a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.label)+'</a></li>').join("")+'</ul></section>';
+  $("#main").innerHTML=h;
+  bindMap();
+  bindDexLinks();
+}
+
+/* ---- 地図ピン ---- */
+function parseCoords(s){
+  if(!s) return [];
+  const out=[], re=/(\d{1,3}(?:\.\d+)?)\s*(?:lat|LAT)?\s*[\/／]\s*(?:lon|LON)?\s*(\d{1,3}(?:\.\d+)?)/g;
+  let m; while((m=re.exec(s))){ const la=+m[1], lo=+m[2];
+    if(la>=0&&la<=100&&lo>=0&&lo<=100) out.push([la,lo]); }
+  return out;
+}
+function chk(t,color,label,n){
+  return '<label><input type="checkbox" class="pf" data-t="'+t+'" checked><span class="sw" style="background:'+color+'"></span>'+esc(label)+'（'+n+'）</label>';
+}
+function mapSection(m){
+  if(!m.image) return "";
+  const pins=[];
+  const push=(t,label,str)=>parseCoords(str).forEach(c=>pins.push({t:t,label:label,la:c[0],lo:c[1]}));
+  m.caves.forEach(c=>push("cave",(c.artifact&&c.artifact!=="—"?"["+c.artifact+"] ":"")+c.name,c.coord));
+  m.bases.forEach(b=>push("base","拠点："+b.name,b.coord));
+  m.resources.forEach(r=>{
+    const t=/オベリスク/.test(r.name)?"obe":"res";
+    r.where.forEach(w=>push(t, r.name.replace(/[★（].*$/,"")+"："+w, w));
+  });
+  const dots=pins.map(p=>'<div class="pin pin-'+p.t+'" style="left:'+p.lo+'%;top:'+p.la+'%" title="'+
+      esc(p.label)+'　（'+p.la+' / '+p.lo+'）"></div>').join("");
+  const cnt=t=>pins.filter(p=>p.t===t).length;
+  return '<section id="s-map"><h3>地図（座標ピン付き・'+pins.length+'件）</h3>'+
+    '<div class="maptools">'+
+      chk("cave","#e2574c","洞窟・アーティファクト",cnt("cave"))+
+      chk("base","#4f9ae0","拠点候補",cnt("base"))+
+      chk("res","#e8c341","資源",cnt("res"))+
+      chk("obe","#5ec27a","オベリスク",cnt("obe"))+
+      '<span class="readout" id="readout">地図の上にカーソルを置くと座標</span></div>'+
+    '<div class="mapwrap" id="mapwrap"><img src="'+esc(m.image)+'" alt="'+esc(m.name_ja)+' の地図">'+dots+'</div>'+
+    (NODES&&NODES[m.id]?'<p class="note"><a href="#" class="goresmap" data-m="'+esc(m.id)+'">▶ このマップの資源だけを出した「資源マップ」を開く</a></p>':'')+
+    '<p class="note">ピンにカーソルを合わせると名前と座標が出ます。左上が lat0/lon0、右下が lat100/lon100。'+
+    '地図画像の出典：ARK公式コミュニティWiki（ark.wiki.gg）。個人利用のためローカルに保存しています（再配布はしない）。</p></section>';
+}
+function bindMap(){
+  $("#main").querySelectorAll("a.goresmap").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); resMapId=a.dataset.m; go("resmap"); });
+  $("#main").querySelectorAll("a.godex").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexFocus=null; dexFilter={tag:"",map:a.dataset.mname,q:""}; go("dex"); });
+  const w=document.getElementById("mapwrap"); if(!w) return;
+  $("#main").querySelectorAll("input.pf").forEach(cb=>{
+    cb.onchange=()=>{ if(cb.checked) w.classList.remove("h-"+cb.dataset.t); else w.classList.add("h-"+cb.dataset.t); };
+  });
+  w.onmousemove=e=>{
+    const r=w.getBoundingClientRect();
+    const lo=(e.clientX-r.left)/r.width*100, la=(e.clientY-r.top)/r.height*100;
+    const ro=document.getElementById("readout");
+    if(ro) ro.textContent="lat "+la.toFixed(1)+" / lon "+lo.toFixed(1);
+  };
+}
+/* ---- 出現生物 ---- */
+const EN_OK=/^[A-Za-z0-9 '\-\.]+$/;
+const DEX_PREFIX=/^(Aberrant|Corrupted|Alpha|Tek|Enraged Corrupted|Polar|Dire|Skeletal|Zombie|Bunny)\s+/;
+
+// 「ティラノサウルス（レックス）（Rex）」→ 図鑑があれば内部リンク、無ければ公式Wikiへの外部リンク
+function spawnLink(x){
+  const m=String(x).match(/（([^（）]+)）\s*$/);
+  let en=m?m[1].trim():null;
+  if(en&&en.indexOf("／")>=0) en=en.split("／")[0].trim();   // 「Maeguana／Maewingの変種」対応
+  if(!en||!EN_OK.test(en)) return esc(x);
+  let c=DEX?DEX.find(d=>d.en===en):null;
+  if(!c&&DEX) c=DEX.find(d=>d.alt&&d.alt.indexOf(en)>=0);          // まとめて1項目にしてある種（ワイバーン等）
+  if(!c&&DEX){ const base=en.replace(DEX_PREFIX,"");
+    c=DEX.find(d=>d.en===base)||DEX.find(d=>d.alt&&d.alt.indexOf(base)>=0); }
+  const wiki='<a class="wlink" href="https://ark.wiki.gg/wiki/'+encodeURIComponent(en.replace(/ /g,"_"))+
+             '" target="_blank" rel="noopener" title="公式Wikiで開く">↗</a>';
+  if(c) return '<a href="#" class="dexlink" data-dex="'+esc(c.id)+'" title="図鑑：'+esc(c.ja)+'">'+esc(x)+'</a> '+wiki;
+  return esc(x)+' '+wiki;
+}
+function bindDexLinks(){
+  $("#main").querySelectorAll("a.dexlink").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexFocus=a.dataset.dex; dexFilter={tag:"",map:""}; go("dex");
+  });
+}
+function spawnSection(m){
+  const s=SPAWNS&&SPAWNS[m.id]; if(!s) return "";
+  let h='<section id="s-spawn"><h3>出現生物一覧'+(s.count?'（'+s.count+'種）':'（主なもの）')+'</h3>'+
+    '<p class="desc">名前をクリックすると<b>恐竜図鑑</b>（収録しているものだけ）、'+
+    '<span class="wlink">↗</span> は公式Wikiのページを新しいタブで開きます。</p>';
+  Object.keys(s.groups).forEach(g=>{
+    h+='<h4 style="margin:14px 0 4px;font-size:13px;color:var(--accent2)">'+esc(g)+'（'+s.groups[g].length+'）</h4>'+
+       '<ul class="spawn">'+s.groups[g].map(x=>'<li>'+spawnLink(x)+'</li>').join("")+'</ul>';
+  });
+  h+='<p class="note">'+(s.warn?'⚠ '+esc(s.warn)+'<br>':'')+
+     '出典：ARK公式コミュニティWikiのスポーンマップ一覧＋各生物ページの出現マップ欄（2つの統合）。'+
+     'アベラント種・アルファ種・ボス・有料パック由来・イベント限定も含みます。</p></section>';
+  return h;
+}
+
+function sec(title, inner, id){ return '<section'+(id?' id="'+id+'"':'')+'><h3>'+esc(title)+'</h3><div class="cards">'+inner+'</div></section>'; }
+function toc(list){ // [[id,label],...]
+  return '<div class="toc"><b>このページの目次</b>'+
+    list.map(x=>'<a href="#'+x[0]+'">'+esc(x[1])+'</a>').join("")+'</div>';
+}
+
+function codeBlock(text){
+  return '<div class="code"><code>'+esc(text)+'</code><button onclick="cp(this)">コピー</button></div>';
+}
+function cp(btn){
+  const t=btn.previousElementSibling.textContent;
+  navigator.clipboard.writeText(t).then(()=>{btn.textContent="✓";setTimeout(()=>btn.textContent="コピー",1200);});
+}
+
+function renderServer(){
+  const s=DATA.server;
+  let h='<h2 class="title">サーバー設定・コマンド集<span>自宅ASA専用サーバー用</span></h2>';
+  h+='<div class="lead">'+esc(s.intro)+'</div>';
+
+  const T=[["sv-map","マップ名一覧"]];
+  s.settings.forEach((g,i)=>T.push(["sv-s"+i,g.group]));
+  s.commands.forEach((g,i)=>T.push(["sv-c"+i,g.group]));
+  T.push(["sv-ops","運用メモ"],["sv-next","今後のマップ"],["sv-src","出典"]);
+  h+=toc(T);
+
+  h+='<section id="sv-map"><h3>マップ名一覧（起動バッチの ?listen 前に入れる名前）</h3><table><tr><th>マップ</th><th>コード</th><th>備考</th></tr>'+
+     s.map_codes.map(c=>'<tr><td>'+esc(c.map)+'</td><td class="coord">'+esc(c.code)+(c.confirmed?"":" ⚠")+'</td><td>'+esc(c.note||(c.confirmed?"":"未検証"))+'</td></tr>').join("")+
+     '</table></section>';
+
+  s.settings.forEach((g,i)=>{
+    h+='<section id="sv-s'+i+'"><h3>'+esc(g.group)+'</h3>';
+    g.items.forEach(it=>{
+      h+='<p class="desc"><b>'+esc(it.section)+'</b>　'+esc(it.desc)+'</p>'+codeBlock(it.key);
+    });
+    h+='</section>';
+  });
+
+  s.commands.forEach((g,i)=>{
+    h+='<section id="sv-c'+i+'"><h3>'+esc(g.group)+'</h3>';
+    g.items.forEach(it=>{
+      h+='<p class="desc">'+esc(it.desc)+'</p>'+codeBlock(it.cmd);
+    });
+    h+='</section>';
+  });
+
+  h+='<section id="sv-ops"><h3>運用メモ</h3><ul class="plain">'+s.ops_tips.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></section>';
+  h+='<section id="sv-next"><h3>未配信・今後のマップ</h3><ul class="plain">'+DATA.meta.unreleased.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></section>';
+  h+='<section id="sv-src"><h3>出典</h3><ul class="plain">'+DATA.meta.sources.map(l=>'<li><a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.label)+'</a></li>').join("")+'</ul></section>';
+  $("#main").innerHTML=h;
+}
+
+/* ---- 目次（ホーム） ---- */
+function renderHome(){
+  const spawnTotal=SPAWNS?Object.values(SPAWNS).reduce((a,m)=>a+(m.count||0),0):0;
+  const nodeTotal=NODES?Object.values(NODES).reduce((a,m)=>a+Object.values(m).reduce((b,x)=>b+x.length,0),0):0;
+
+  let h='<h2 class="title">目次<span>ARK: Survival Ascended 攻略データベース</span></h2>';
+  h+='<div class="lead"><b>やりたいことを下のカードから選んでください。</b>'+
+     '上の検索窓はすべてのページを横断します（例：<b>金属</b> / <b>ワイバーン</b> / <b>麻酔矢</b> / <b>クライオ</b>）。'+
+     'キーボードの <b>/</b> キーで検索窓に飛べます。'+
+     '<div class="note">更新 '+esc(DATA.meta.updated)+'　／　'+DATA.maps.length+'マップ・図鑑'+
+     (DEX?DEX.length:0)+'種・エングラム'+(ENG?ENG.length:0)+'件・出現'+spawnTotal.toLocaleString()+
+     '件・資源'+nodeTotal.toLocaleString()+'ヵ所・洞窟'+
+     DATA.maps.reduce((a,m)=>a+m.caves.length,0)+'件</div></div>';
+
+  h+=toc([].concat([["hm-task","やりたいことから入る"],["hm-now","いま動かしているサーバー"],["hm-list","マップ一覧"],
+          ["hm-art","アーティファクト索引"],["hm-res","資源から探す"]],
+          ENG?[["hm-eng","エングラムから探す"]]:[], DEX?[["hm-dex","生き物から探す"]]:[],
+          [["hm-goal","マップ選びの指針"],["hm-data","このDBの見かた"]]));
+
+  // やりたいことから入る
+  h+='<section id="hm-task"><h3>やりたいことから入る</h3><div class="homecards">';
+  const task=(go,icon,t,d)=>'<div class="card" data-go="'+go+'"><div class="big">'+icon+' '+t+'</div><p class="note">'+d+'</p></div>';
+  if(DATA.beginner_guide) h+=task("guide","📘","ARKを始めたばかり","最初の30分にやること → 初テイム → 拠点づくりまで順番に");
+  if(DEX) h+=task("dex","🦕","生き物を調べたい","テイムの方法・準備する道具・特殊能力・サドルLv（"+DEX.length+"種）");
+  if(NODES) h+=task("resmap","🗺","資源の場所を知りたい","金属・水晶・黒曜石・石油・真珠・硫黄を地図にピン表示");
+  if(ENG) h+=task("engrams","📜","何Lvで何が作れる？","エングラム辞典（"+ENG.length+"件）。必要レベル・EP・前提・作る場所。MOD込み");
+  if(SYS) h+=task("sys","📐","仕組みが分からない","ステータスの振り方／レシピ開放／制作アイテムの用途");
+  if(DATA.client_commands) h+=task("client","🖥","動作が重い・画面が暗い","自分のPCで打つコマンド（雲や影を切る・明るくする）");
+  h+=task("server","⚙️","サーバーを設定したい","ini設定・管理者コマンド・マップ名一覧（コピーできます）");
+  if(MODS) h+=task("mods","🧩","MODやDLCを知りたい","入れ方・おすすめ・どの有料DLCに何の生き物が入っているか");
+  if(DATA.asa_notes) h+=task("notes","🌍","最新事情を知りたい","UE5.8アップデート／ASAの新生物／海外の定番設定");
+  h+='</div></section>';
+
+  // いま動かしているサーバー
+  const cur=DATA.maps.filter(m=>m.current_use);
+  if(cur.length){
+    h+='<section id="hm-now"><h3>いま動かしているサーバー</h3><div class="homecards">';
+    cur.forEach(m=>{ h+='<div class="card" data-go="'+m.id+'"><div class="big">🎮 '+esc(m.name_ja)+'</div>'+
+      '<p class="note">'+esc(m.current_use)+'</p></div>'; });
+    h+='</div>';
+    h+='<div class="lead" style="border-left-color:var(--danger);margin-top:12px">'+
+       '<b>⚠ 2026-09-30 に ASA 本体が Unreal Engine 5.8 へ更新されます。</b>'+
+       'MODは作者の再コンパイル待ちになる可能性があるので、その前に '+
+       '<code class="ic">ASA\\ShooterGame\\Saved\\SavedArks\\</code> をバックアップしてください。'+
+       '<div class="note">詳しくは「🌍 海外情報メモ」。</div></div>';
+    h+='</section>';
+  }
+
+  // マップ一覧
+  h+='<section id="hm-list"><h3>マップ一覧（クリックで開く）</h3><table class="home">'+
+     '<tr><th>マップ</th><th>種別</th><th>初心者度</th><th>広さ</th><th>サーバー用マップ名</th><th>洞窟</th><th>ボス</th></tr>'+
+     DATA.maps.map(m=>'<tr><td class="nm" data-go="'+m.id+'">'+esc(m.name_ja)+'</td><td>'+esc(m.kind)+
+       '</td><td><span class="stars" style="color:var(--accent)">'+"★".repeat(m.beginner)+"☆".repeat(5-m.beginner)+
+       '</span></td><td>'+esc(m.size)+'</td><td class="coord">'+esc(m.map_code)+'</td><td>'+m.caves.length+
+       '</td><td>'+m.bosses.length+'</td></tr>').join("")+'</table></section>';
+
+  // アーティファクト索引
+  const idx={};
+  DATA.maps.forEach(m=>m.caves.forEach(c=>{
+    if(!c.artifact||c.artifact==="—") return;
+    ART.forEach(a=>{ if(c.artifact.indexOf(a[0])>=0){ (idx[a[0]]=idx[a[0]]||[]).push({m:m,c:c}); } });
+  }));
+  h+='<section id="hm-art"><h3>アーティファクト索引（どのマップのどこにあるか）</h3><div class="idx">';
+  ART.forEach(a=>{
+    const rows=idx[a[0]]; if(!rows) return;
+    h+='<div class="card"><h4>'+esc(a[1])+'<span style="color:var(--dim);font-size:11px"> / '+esc(a[0])+'</span></h4><ul>'+
+       rows.map(r=>'<li data-go="'+r.m.id+'">'+esc(r.m.name_ja.replace(/（.*$/,""))+
+         ' <span class="c">'+esc(r.c.coord||"—")+'</span></li>').join("")+'</ul></div>';
+  });
+  h+='</div></section>';
+
+  // 資源索引（資源マップへ直行できるようにする）
+  const ridx={};
+  DATA.maps.forEach(m=>m.resources.forEach(r=>{
+    const key=r.name.split("（")[0].split("★")[0].trim();
+    (ridx[key]=ridx[key]||[]).push(m);
+  }));
+  if(NODES) Object.entries(NODES).forEach(([id,o])=>Object.keys(o).forEach(k=>{
+    const m=DATA.maps.find(x=>x.id===id); if(!m) return;
+    ridx[k]=ridx[k]||[]; if(ridx[k].indexOf(m)<0) ridx[k].push(m);
+  }));
+  const keys=Object.keys(ridx).sort((a,b)=>ridx[b].length-ridx[a].length);
+  const nodeKeys=NODES?new Set([].concat(...Object.values(NODES).map(o=>Object.keys(o)))):new Set();
+  h+='<section id="hm-res"><h3>資源から探す</h3>'+
+     '<p class="desc">見出しに 📍 が付いている資源は、クリックすると<b>資源マップでその資源だけを表示</b>します。'+
+     'マップ名をクリックするとそのマップのページへ。</p><div class="idx">'+
+     keys.map(k=>'<div class="card"><h4>'+(nodeKeys.has(k)?'<a href="#" class="dexlink" data-resgo="'+esc(k)+'">📍 '+esc(k)+'</a>':esc(k))+'</h4><ul>'+
+       ridx[k].map(m=>'<li data-go="'+m.id+'">'+esc(m.name_ja.replace(/（.*$/,"").replace(/★.*$/,""))+'</li>').join("")+
+       '</ul></div>').join("")+'</div></section>';
+
+  // エングラム索引
+  if(ENG){
+    const catCount={}; ENG.forEach(e=>{ if(e.src.indexOf("MOD：")!==0) catCount[e.cat]=(catCount[e.cat]||0)+1; });
+    const cats=Object.entries(catCount).sort((a,b)=>b[1]-a[1]).slice(0,14);
+    const bands=[["1-20","Lv1〜20"],["21-40","Lv21〜40"],["41-60","Lv41〜60"],["61-80","Lv61〜80"],["81-100","Lv81〜100"]];
+    h+='<section id="hm-eng"><h3>エングラムから探す（'+ENG.length+'件）</h3>'+
+       '<p class="desc">「いま何が作れるか」はレベル帯から、「あれを作りたい」は分類から。クリックで辞典が絞り込まれた状態で開きます。</p>'+
+       '<div class="toc"><b>レベル帯</b>'+bands.map(b=>
+         '<a href="#" data-enggo="lv:'+b[0]+'">'+esc(b[1])+'（'+ENG.filter(e=>{const[x,y]=b[0].split("-");return e.lv>=+x&&e.lv<=+y;}).length+'）</a>').join("")+'</div>'+
+       '<div class="toc"><b>分類</b>'+cats.map(c=>
+         '<a href="#" data-enggo="q:'+esc(c[0])+'">'+esc(c[0])+'（'+c[1]+'）</a>').join("")+'</div>'+
+       '<div class="toc"><b>出典</b><a href="#" data-enggo="src:本体">本体だけ</a>'+
+         '<a href="#" data-enggo="src:MOD">MODだけ（'+ENG.filter(e=>e.src.indexOf("MOD：")===0).length+'）</a>'+
+         '<a href="#" data-enggo="all:">すべて見る</a></div></section>';
+  }
+
+  // 生き物索引（図鑑への入口）
+  if(DEX){
+    const tagCount={}; DEX.forEach(c=>(c.tags||[]).forEach(t=>tagCount[t]=(tagCount[t]||0)+1));
+    const tags=Object.entries(tagCount).sort((a,b)=>b[1]-a[1]).slice(0,12);
+    h+='<section id="hm-dex"><h3>生き物から探す（'+DEX.length+'種）</h3>'+
+       '<p class="desc">用途タグで図鑑を絞り込みます。テイム方法・準備するもの・特殊能力つき。</p>'+
+       '<div class="toc"><b>用途</b>'+tags.map(t=>
+         '<a href="#" data-dexgo="'+esc(t[0])+'">'+esc(t[0])+'（'+t[1]+'）</a>').join("")+
+       '<a href="#" data-dexgo="">すべて見る</a></div></section>';
+  }
+
+  // 目的別
+  const easy=DATA.maps.filter(m=>m.beginner>=4).map(m=>m.name_ja).join(" / ");
+  const wy=DATA.maps.filter(m=>JSON.stringify(m.creatures).indexOf("ワイバーン")>=0).map(m=>m.name_ja).join(" / ");
+  const free=DATA.maps.filter(m=>m.kind.indexOf("無料")>=0||m.kind.indexOf("本編")>=0).map(m=>m.name_ja).join(" / ");
+  const paid=DATA.maps.filter(m=>m.kind.indexOf("有料")>=0).map(m=>m.name_ja).join(" / ");
+  h+='<section id="hm-goal"><h3>マップ選びの指針</h3><div class="cards">'+
+     card('<h4>初心者・久しぶりに再開する人</h4><p>'+esc(easy)+'</p><p class="note">攻略情報が多く、序盤の死亡率が低い順</p>')+
+     card('<h4>ワイバーンを育てたい</h4><p>'+esc(wy)+'</p><p class="note">卵を盗んで育てる。孵化・成長倍率は設定済み</p>')+
+     card('<h4>追加課金なしで遊べる</h4><p>'+esc(free)+'</p><p class="note">全員タダ。身内サーバーはここから選ぶのが無難</p>')+
+     card('<h4>全員の購入が必要（有料DLC）</h4><p>'+esc(paid)+'</p><p class="note">サーバー管理者ではなく"接続する全員"が買う必要あり</p>')+
+     card('<h4>ボスまで一通り遊びたい</h4><p>The Island / Ragnarok / Valguero</p><p class="note">アーティファクトが揃い、ボスまでの道筋がはっきりしている</p>')+
+     card('<h4>景色・雰囲気重視</h4><p>The Center / Astraeos / Lost Colony</p><p class="note">浮遊島・ギリシャ神話・ゴシック都市</p>')+
+     '</div></section>';
+
+  // このDBの見かた
+  h+='<section id="hm-data"><h3>このDBの見かた（迷ったとき用）</h3><div class="cards">'+
+     card('<h4>座標の読み方</h4><p>すべて <b>lat（緯度）/ lon（経度）</b>。地図は左上が 0/0、右下が 100/100。'+
+       '地図の上でカーソルを動かすと座標が出ます。</p><p class="note">攻略サイト由来の値なので数マス単位のズレはあります。</p>')+
+     card('<h4>リンクの色</h4><p><span class="dexlink" style="border-bottom:1px dotted var(--accent2)">点線</span> ＝ このDB内へ移動（図鑑・マップ）／'+
+       '<span class="ilink" style="border-bottom:1px dotted #4f7f96;color:#9fd0e8">水色</span> ＝ アイテムを公式Wikiで開く／'+
+       '<span class="wlink">↗</span> ＝ 生き物を公式Wikiで開く</p>')+
+     card('<h4>「要確認」と書いてある所</h4><p>裏が取れていない項目です。実機で確かめたら JSON を直してください。'+
+       'Astraeos は<b>有料DLC版のデータ</b>なので、無料MOD版には無いものが混じります。</p>')+
+     card('<h4>中身を直したいとき</h4><p><code class="ic">data\\ark_maps.json</code> などを編集して '+
+       '<code class="ic">build.ps1</code> を実行するだけ。README に手順があります。</p>')+
+     '</div></section>';
+
+  $("#main").innerHTML=h;
+  $("#main").querySelectorAll("[data-go]").forEach(el=>el.onclick=()=>go(el.dataset.go));
+  $("#main").querySelectorAll("[data-resgo]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); resSolo=a.dataset.resgo; go("resmap");
+  });
+  $("#main").querySelectorAll("[data-enggo]").forEach(a=>a.onclick=e=>{
+    e.preventDefault();
+    const v=a.dataset.enggo, i=v.indexOf(":"), k=v.slice(0,i), val=v.slice(i+1);
+    engFilter={lv:"",src:"",q:""};
+    if(k==="lv") engFilter.lv=val; else if(k==="q") engFilter.q=val; else if(k==="src") engFilter.src=val;
+    go("engrams");
+  });
+  $("#main").querySelectorAll("[data-dexgo]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexFocus=null; dexFilter={tag:a.dataset.dexgo,map:"",q:""}; go("dex");
+  });
+  bindMap();
+}
+
+/* ---- 資源マップ（資源だけのピン地図） ---- */
+function renderResMap(){
+  const ids=DATA.maps.filter(m=>NODES[m.id]).map(m=>m.id);
+  if(!resMapId||ids.indexOf(resMapId)<0) resMapId=ids[0];
+  // ホームの資源索引から「その資源だけ」で来た場合、持っているマップに切り替える
+  if(resSolo&&!NODES[resMapId][resSolo]){
+    const hit=ids.find(id=>NODES[id][resSolo]); if(hit) resMapId=hit;
+  }
+  const m=DATA.maps.find(x=>x.id===resMapId), data=NODES[resMapId];
+  const keys=Object.keys(data);
+  let total=0, plotted=0;
+
+  const SHAPES=(window.ARK_NODES._meta.shapes)||{};
+  let pins="", lists="";
+  keys.forEach(k=>{
+    const color=LEGEND[k]||"#e8c341", shape=SHAPES[k]||"dot";
+    data[k].forEach(s=>{
+      total++;
+      const p=parseCoords(s)[0];
+      if(!p) return;
+      plotted++;
+      pins+='<div class="pin '+shape+'" data-r="'+esc(k)+'" style="left:'+p[1]+'%;top:'+p[0]+'%;background:'+color+'" title="'+esc(k)+'　'+esc(s)+'"></div>';
+    });
+    lists+='<details><summary><span class="sw '+shape+'" style="background:'+color+'"></span> '+esc(k)+'（'+data[k].length+'）</summary>'+
+           '<p class="coordlist">'+esc(data[k].join("　/　"))+'</p></details>';
+  });
+
+  let h='<h2 class="title">資源マップ<span>採れる場所だけを地図に出す</span></h2>';
+  h+='<div class="lead">資源ノードの座標だけを集めた地図です。<b>資源ごとに色と形を変えて</b>あります'+
+     '（金属＝白い四角／水晶＝水色のひし形／黒曜石＝紫の丸／石油＝オレンジの丸／シリカ真珠＝白フチの丸／硫黄＝黄色い四角）。'+
+     'チェックを外すと種類ごとに消せ、「だけ」ボタンでその資源だけを表示できます。'+
+     '地図の上をなぞると座標が出るので、ゲーム内のGPSと見比べてください。'+
+     '<div class="note">'+esc(window.ARK_NODES._meta.note)+'</div></div>';
+
+  h+='<div class="toc"><b>マップ</b>'+ids.map(id=>{
+      const mm=DATA.maps.find(x=>x.id===id);
+      return '<a href="#" data-resmap="'+id+'"'+(id===resMapId?' style="border-color:var(--accent);color:var(--accent)"':'')+'>'+
+             esc(mm.name_ja.replace(/（.*$/,"").replace(/★.*$/,""))+'</a>';
+    }).join("")+'</div>';
+
+  h+='<h3 style="font-size:15px;color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:6px">'+
+     esc(m.name_ja)+' の資源（'+plotted+' / '+total+' 件を表示）</h3>';
+
+  h+='<div class="maptools">'+keys.map(k=>
+      '<label><input type="checkbox" class="rf" data-r="'+esc(k)+'" checked>'+
+      '<span class="sw '+(SHAPES[k]||"dot")+'" style="background:'+(LEGEND[k]||"#e8c341")+'"></span>'+
+      esc(k)+'（'+data[k].length+'）'+
+      '<button class="solo" data-solo="'+esc(k)+'" title="これだけ表示">だけ</button></label>').join("")+
+      '<button class="solo" data-solo="__all">全部表示</button>'+
+      '<span class="readout" id="readout">地図の上にカーソルを置くと座標</span></div>';
+
+  h+='<div class="mapwrap" id="mapwrap"><img src="'+esc(m.image)+'" alt="'+esc(m.name_ja)+' の資源マップ">'+pins+'</div>';
+
+  const notes=(window.ARK_NODES.spot_notes||{})[resMapId];
+  if(notes) h+='<section style="margin-top:18px"><h3>このマップのメモ</h3><ul class="plain">'+
+      notes.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></section>';
+
+  h+='<section style="margin-top:18px"><h3>座標一覧（クリックで開く）</h3>'+lists+'</section>';
+  h+='<p class="note">出典：'+esc(window.ARK_NODES._meta.source)+'</p>';
+
+  $("#main").innerHTML=h;
+  bindMap();
+  const setRes=(key,on)=>{
+    $("#main").querySelectorAll('.pin[data-r="'+key+'"]').forEach(p=>{ p.style.display=on?"":"none"; });
+    const cb=$("#main").querySelector('input.rf[data-r="'+key+'"]'); if(cb) cb.checked=on;
+  };
+  $("#main").querySelectorAll("input.rf").forEach(cb=>{ cb.onchange=()=>setRes(cb.dataset.r,cb.checked); });
+  $("#main").querySelectorAll("button.solo").forEach(b=>{
+    b.onclick=e=>{ e.preventDefault(); e.stopPropagation();
+      const only=b.dataset.solo;
+      keys.forEach(k=>setRes(k, only==="__all" ? true : k===only));
+    };
+  });
+  $("#main").querySelectorAll("[data-resmap]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); resMapId=a.dataset.resmap; render(); window.scrollTo(0,0); });
+  if(resSolo){ const only=resSolo; resSolo=null;
+    if(data[only]) keys.forEach(k=>setRes(k,k===only)); }
+}
+
+/* ---- エングラム辞典 ---- */
+const ENG_LV=[["","すべて"],["1-20","Lv1〜20"],["21-40","Lv21〜40"],["41-60","Lv41〜60"],
+              ["61-80","Lv61〜80"],["81-100","Lv81〜100"],["101-","Lv101〜"]];
+function renderEngrams(){
+  const all=ENG;
+  const srcs=[]; all.forEach(e=>{ const s=e.src.indexOf("MOD：")===0?"MOD":e.src; if(srcs.indexOf(s)<0) srcs.push(s); });
+  let list=all.slice();
+  if(engFilter.lv){
+    const [a,b]=engFilter.lv.split("-");
+    const lo=+a, hi=b?+b:9999;
+    list=list.filter(e=>e.lv>=lo&&e.lv<=hi);
+  }
+  if(engFilter.src) list=list.filter(e=>(e.src.indexOf("MOD：")===0?"MOD":e.src)===engFilter.src);
+  if(engFilter.q){
+    const k=engFilter.q.toLowerCase();
+    list=list.filter(e=>[e.ja,e.en,e.cat,e.made,e.src,e.note,e.desc,(e.pre||[]).join(" "),(e.mats||[]).map(m=>m.n).join(" ")].join(" ").toLowerCase().indexOf(k)>=0);
+  }
+
+  let h='<h2 class="title">エングラム辞典<span>何レベルで何が解禁されるか</span></h2>';
+  h+='<div class="lead">レベルとEP（エングラムポイント）、<b>効果・説明</b>、<b>必要な素材</b>、作る場所、前提エングラムの一覧です。'+
+     '素材名でも検索できます（例：「黒真珠」で、黒真珠を使うものを全部出す）。'+
+     '本体とDLCは公式Wikiから取得、MODぶんは手動でまとめています。'+
+     '<div class="note">全'+all.length+'件（本体・DLC '+all.filter(e=>e.src.indexOf("MOD：")!==0).length+
+     '／MOD '+all.filter(e=>e.src.indexOf("MOD：")===0).length+'）。'+
+     'EPは有限なので、覚える順番は「📐 システム解説」を参照。'+esc(window.ARK_ENGRAMS._meta.note)+'</div></div>';
+
+  h+='<div class="toc"><b>レベル帯</b>'+ENG_LV.map(x=>
+     '<a href="#" data-englv="'+x[0]+'"'+(engFilter.lv===x[0]?' style="border-color:var(--accent);color:var(--accent)"':'')+'>'+esc(x[1])+'</a>').join("")+'</div>';
+  h+='<div class="toc"><b>出典</b><a href="#" data-engsrc=""'+(engFilter.src?'':' style="border-color:var(--accent);color:var(--accent)"')+'>すべて</a>'+
+     srcs.map(s=>'<a href="#" data-engsrc="'+esc(s)+'"'+(engFilter.src===s?' style="border-color:var(--accent);color:var(--accent)"':'')+'>'+esc(s)+'</a>').join("")+'</div>';
+  h+='<div class="toc"><b>名前で絞る</b><input id="engq" type="search" value="'+esc(engFilter.q)+'" placeholder="例：サドル／麻酔／作業台／金属インゴット／S+">'+
+     ((engFilter.q||engFilter.lv||engFilter.src)?'<a href="#" data-engclear="1">絞り込みを解除</a>':'')+'</div>';
+
+  // 絞り込みが無いときは「序盤の道しるべ」を先に出す
+  if(!engFilter.lv&&!engFilter.src&&!engFilter.q){
+    const KEY=["Stone Pick","Stone Hatchet","Campfire","Sleeping Bag","Spear","Bola","Wooden Club",
+      "Mortar And Pestle","Stone Foundation","Storage Box","Bed","Bow","Tranquilizer Arrow",
+      "Smithy","Refining Forge","Feeding Trough","Cryopod","Fabricator"];
+    const rows=KEY.map(k=>all.find(e=>e.en===k)).filter(Boolean).sort((a,b)=>a.lv-b.lv);
+    if(rows.length) h+='<section><h3>序盤の道しるべ（この順に取ると詰まりにくい）</h3><div class="toc">'+
+      rows.map(e=>'<a href="#" data-engq="'+esc(e.en)+'">Lv'+e.lv+' '+esc(e.ja||e.en)+'</a>').join("")+
+      '</div></section>';
+  }
+  h+='<p class="desc">'+list.length+' / '+all.length+' 件を表示中'+(list.length===0?'　該当なし。':'')+'</p>';
+  h+='<table><tr><th>Lv</th><th>EP</th><th>名前・効果</th><th>分類</th><th>必要な素材</th><th>作る場所／前提</th></tr>'+
+     list.slice(0,400).map(e=>{
+       const name=(e.ja?esc(e.ja)+'<span style="color:var(--dim);font-size:11px"> / '+esc(e.en)+'</span>':esc(e.en))+
+         (e.url?' <a class="wlink" href="'+esc(e.url)+'" target="_blank" rel="noopener" title="公式Wikiで開く">↗</a>':'');
+       const desc=e.desc?'<div class="edesc">'+il(e.desc)+'</div>'
+         :(e.desc_en?'<div class="edesc en">'+esc(e.desc_en)+'</div>':'');
+       const mats=(e.mats&&e.mats.length)
+         ? e.mats.map(m=>matLink(m.n)+'<span class="q">×'+esc(m.q||"?")+'</span>').join('<br>') : '-';
+       const last=[e.made||"", (e.pre&&e.pre.length?"前提："+e.pre.join("・"):""), e.note||""]
+         .filter(Boolean).map(s=>esc(s)).join('<br>')||'-';
+       return '<tr><td class="coord">'+(e.lv||"-")+'</td><td class="coord">'+(e.ep||"-")+'</td>'+
+         '<td>'+name+desc+'</td><td>'+esc(e.cat)+'</td><td class="mats">'+mats+'</td><td>'+last+'</td></tr>';
+     }).join("")+
+     '</table>';
+  if(list.length>400) h+='<p class="note">…ほか '+(list.length-400)+' 件。絞り込むと全部見られます。</p>';
+
+  $("#main").innerHTML=h;
+  $("#main").querySelectorAll("[data-englv]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); engFilter.lv=a.dataset.englv; render(); window.scrollTo(0,0); });
+  $("#main").querySelectorAll("[data-engsrc]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); engFilter.src=a.dataset.engsrc; render(); window.scrollTo(0,0); });
+  $("#main").querySelectorAll("[data-engclear]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); engFilter={lv:"",src:"",q:""}; render(); window.scrollTo(0,0); });
+  $("#main").querySelectorAll("[data-engq]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); engFilter={lv:"",src:"",q:a.dataset.engq}; render(); window.scrollTo(0,0); });
+  const q=$("#main").querySelector("#engq");
+  if(q){ q.oninput=()=>{ engFilter.q=q.value; render(); };
+    if(engFilter.q){ q.focus(); q.setSelectionRange(q.value.length,q.value.length); } }
+}
+
+/* ---- システム解説 ---- */
+function renderSys(){
+  const s=SYS;
+  let h='<h2 class="title">システム解説<span>ステータス／レシピ開放／制作アイテム</span></h2>';
+  h+='<div class="lead">'+md(s.intro)+'</div>';
+  h+=toc([["sy-ps","プレイヤーのステータス"],["sy-ds","恐竜のステータス"],["sy-en","レシピ開放（エングラム）"],
+          ["sy-or","覚える順番"]].concat(s.items.groups.map((g,i)=>["sy-i"+i,g.g])));
+
+  h+='<section id="sy-ps"><h3>'+esc(s.player_stats.title)+'</h3>'+
+     '<p class="desc">'+md(s.player_stats.note)+'</p>'+
+     '<table><tr><th>ステータス</th><th>何が伸びる</th><th>優先度</th><th>コメント</th></tr>'+
+     s.player_stats.rows.map(r=>'<tr><td>'+esc(r.n)+'</td><td>'+md(r.e)+'</td><td style="color:var(--accent);white-space:nowrap">'+esc(r.p)+'</td><td>'+md(r.c)+'</td></tr>').join("")+
+     '</table><ul class="plain">'+s.player_stats.recommend.map(t=>'<li>'+md(t)+'</li>').join("")+'</ul></section>';
+
+  h+='<section id="sy-ds"><h3>'+esc(s.dino_stats.title)+'</h3><table><tr><th>項目</th><th>説明</th></tr>'+
+     s.dino_stats.rows.map(r=>'<tr><td>'+esc(r.n)+'</td><td>'+md(r.e)+'</td></tr>').join("")+'</table></section>';
+
+  h+='<section id="sy-en"><h3>'+esc(s.engrams.title)+'</h3><table><tr><th>項目</th><th>説明</th></tr>'+
+     s.engrams.rows.map(r=>'<tr><td>'+esc(r.n)+'</td><td>'+md(r.e)+'</td></tr>').join("")+'</table></section>';
+
+  h+='<section id="sy-or"><h3>覚える順番（おすすめ）</h3><ol class="plain">'+
+     s.engrams.order.map(t=>'<li>'+il(t)+'</li>').join("")+'</ol></section>';
+
+  s.items.groups.forEach((g,i)=>{
+    h+='<section id="sy-i'+i+'"><h3>'+esc(g.g)+'</h3><table><tr><th>アイテム</th><th>用途</th></tr>'+
+       g.rows.map(r=>'<tr><td>'+il(r.n)+'</td><td>'+il(r.e)+'</td></tr>').join("")+'</table></section>';
+  });
+  $("#main").innerHTML=h;
+}
+
+/* ---- MOD解説 ---- */
+function renderMods(){
+  const m=MODS;
+  let h='<h2 class="title">MOD・DLCの話<span>仕組み・入れ方・おすすめ・買うべきか</span></h2>';
+  h+='<div class="lead">'+md(m.intro)+'</div>';
+  h+=toc([["md-how","MODの入れ方"],["md-pick","おすすめMOD"],["md-ord","入れる順番"],
+          ["md-pk","有料DLC・パック一覧"],["md-ca","注意"],["md-li","リンク"]]);
+
+  h+='<section id="md-how"><h3>入れ方の仕組み（サーバー側だけで完結）</h3><ul class="plain">'+
+     m.howto.map(t=>'<li>'+md(t)+'</li>').join("")+'</ul>'+
+     codeBlock("[ServerSettings]\nActiveMods=928548,928546")+
+     codeBlock("ActiveMapMod=988598　（マップMODの場合）")+
+     '</section>';
+
+  h+='<section id="md-pick"><h3>おすすめMOD</h3><table><tr><th>MOD</th><th>ID</th><th>種類</th><th>何ができる</th><th>サーバー負荷</th></tr>'+
+     m.picks.map(p=>'<tr><td>'+esc(p.name)+'</td><td class="coord">'+esc(p.id)+'</td><td>'+esc(p.cat)+'</td><td>'+md(p.what)+'</td><td>'+md(p.server)+'</td></tr>').join("")+
+     '</table><p class="note">IDは参考値です。導入前にCurseForgeのMODページでプロジェクトIDを確認してください。</p></section>';
+
+  h+='<section id="md-ord"><h3>入れるならこの順番</h3><ol class="plain">'+
+     m.recommend_order.map(t=>'<li>'+md(t)+'</li>').join("")+'</ol></section>';
+
+  if(m.packs){
+    h+='<section id="md-pk"><h3>有料DLC・パック一覧（どれに何の生き物が入っているか）</h3>'+
+       '<p class="desc">'+md(m.packs.intro)+'</p>'+
+       '<table><tr><th>名前</th><th>種類</th><th>価格</th><th>中身</th></tr>'+
+       m.packs.rows.map(r=>'<tr><td>'+esc(r.n)+'</td><td>'+esc(r.kind)+'</td><td class="coord">'+esc(r.price)+'</td><td>'+md(r.what)+'</td></tr>').join("")+
+       '</table><ul class="plain">'+m.packs.notes.map(t=>'<li>'+md(t)+'</li>').join("")+'</ul></section>';
+  }
+  h+='<section id="md-ca"><h3>注意</h3><ul class="plain">'+m.cautions.map(t=>'<li>'+md(t)+'</li>').join("")+'</ul></section>';
+  h+='<section id="md-li"><h3>リンク</h3><ul class="plain">'+m.links.map(l=>'<li><a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.label)+'</a></li>').join("")+'</ul></section>';
+  $("#main").innerHTML=h;
+}
+
+/* ---- 恐竜図鑑 ---- */
+function dexMapEntries(c){
+  if(!SPAWNS) return [];
+  const names=[c.en].concat(c.alt||[]), out=[], seen={};
+  // 「（Rex）」だけでなく「（Aberrant Rex）」「（Alpha Rex）」なども同じ生き物として数える
+  const match=x=>names.some(n=>{
+    const i=x.indexOf(n+"）");
+    return i>0 && (x[i-1]==="（" || x[i-1]===" ");
+  });
+  DATA.maps.forEach(m=>{
+    const s=SPAWNS[m.id]; if(!s) return;
+    const hit=Object.keys(s.groups).some(g=>s.groups[g].some(match));
+    if(!hit) return;
+    const name=m.name_ja.replace(/（.*$/,"").replace(/★.*$/,"");
+    if(seen[name]) return;
+    seen[name]=1; out.push({id:m.id,name:name});
+  });
+  return out;
+}
+function dexMaps(c){ return dexMapEntries(c).map(e=>e.name); }
+function renderDex(){
+  const all=DEX;
+  const tags=[]; all.forEach(c=>c.tags.forEach(t=>{ if(tags.indexOf(t)<0) tags.push(t); }));
+  const mapNames=DATA.maps.map(m=>m.name_ja.replace(/（.*$/,"").replace(/★.*$/,""))
+      .filter((v,i,a)=>a.indexOf(v)===i);
+  let list=all.slice(), focus=null;
+  if(dexFocus){ focus=all.find(c=>c.id===dexFocus); if(focus) list=[focus]; else dexFocus=null; }
+  if(!focus){
+    if(dexFilter.tag) list=list.filter(c=>c.tags.indexOf(dexFilter.tag)>=0);
+    if(dexFilter.map) list=list.filter(c=>dexMaps(c).indexOf(dexFilter.map)>=0);
+    if(dexFilter.q){
+      const k=dexFilter.q.toLowerCase();
+      list=list.filter(c=>[c.ja,c.en,c.role,c.ability,c.prep,c.tame,c.harvest,(c.tags||[]).join(" ")]
+        .join(" ").toLowerCase().indexOf(k)>=0);
+    }
+  }
+
+  let h='<h2 class="title">恐竜図鑑<span>よく関わる生き物のテイム方法・用途・サドル</span></h2>';
+  h+='<div class="lead">テイムの方法、好きな餌、何に使えるか、サドルの解禁レベルをまとめました。'+
+     '出現マップは出現生物データから自動で紐づけています。<div class="note">'+
+     'テイム方法の見かた：<b>気絶</b>＝ボーラ/麻酔で眠らせて餌を入れる　/　<b>手渡し</b>＝餌を持って近づく（攻撃厳禁）　/　'+
+     '<b>卵</b>＝野生の卵を盗んで孵す　/　<b>特殊</b>＝専用の手順　/　<b>不可</b>＝テイムできない</div></div>';
+
+  const g=(window.ARK_CREATURES&&window.ARK_CREATURES._meta&&window.ARK_CREATURES._meta.tame_guide)||null;
+  if(g){
+    h+='<details id="tameguide"><summary><b>▶ テイムの基本 — 4つの方法と、先に揃えると楽な道具</b></summary>'+
+       '<p class="desc">'+md(g.intro)+'</p>'+
+       '<h4 style="font-size:13px;color:var(--accent2);margin:10px 0 4px">先に揃えておくと全部が楽になる道具</h4>'+
+       '<ul class="plain">'+g.common.map(t=>'<li>'+il(t)+'</li>').join("")+'</ul>'+
+       '<table style="margin-top:12px"><tr><th>方法</th><th>手順</th><th>注意</th></tr>'+
+       g.methods.map(m=>'<tr><td>'+esc(m.m)+'</td><td>'+il(m.how)+'</td><td>'+il(m.caution)+'</td></tr>').join("")+
+       '</table><p class="note">'+md(g.server)+'</p></details>';
+  }
+  if(focus) h+='<div class="toc"><b>1種だけ表示中</b><a href="#" data-dexall="1">◀ すべての生き物（'+all.length+'）に戻る</a></div>';
+  h+='<div class="toc"><b>名前・能力で絞る</b>'+
+     '<input id="dexq" type="search" value="'+esc(dexFilter.q)+'" placeholder="例：レックス／Rex／回復／壁を登る">'+
+     ((dexFilter.q||dexFilter.tag||dexFilter.map)?'<a href="#" data-dexclear="1">絞り込みを解除</a>':'')+'</div>';
+  h+='<div class="toc"><b>用途で絞る</b>'+
+     '<a href="#" data-tag="">すべて（'+all.length+'）</a>'+
+     tags.map(t=>'<a href="#" data-tag="'+esc(t)+'"'+(dexFilter.tag===t?' style="border-color:var(--accent);color:var(--accent)"':'')+'>'+esc(t)+'</a>').join("")+
+     '</div>';
+  h+='<div class="toc"><b>マップで絞る</b>'+
+     '<a href="#" data-map="">すべて</a>'+
+     mapNames.map(t=>'<a href="#" data-map="'+esc(t)+'"'+(dexFilter.map===t?' style="border-color:var(--accent);color:var(--accent)"':'')+'>'+esc(t)+'</a>').join("")+
+     '</div>';
+
+  h+='<p class="desc">'+list.length+' / '+all.length+' 種を表示中'+
+     ((dexFilter.tag||dexFilter.map||dexFilter.q)?'（絞り込み：'+esc([dexFilter.q,dexFilter.tag,dexFilter.map].filter(Boolean).join(" / "))+'）':'')+
+     (list.length===0?'　該当なし。ひらがな／カタカナ／英名を変えて試してください。':'')+'</p>';
+
+  h+='<div class="cards">'+list.map(c=>{
+    const maps=dexMapEntries(c).map(e=>'<a href="#" class="dexlink" data-tomap="'+esc(e.id)+'">'+esc(e.name)+'</a>');
+    return card(
+      '<h4>'+esc(c.ja)+'<span style="color:var(--dim);font-size:11px"> / '+esc(c.en)+'</span></h4>'+
+      '<div class="meta-row" style="margin:6px 0 8px">'+
+        '<span class="chip">テイム：'+esc(c.tame)+'</span>'+
+        (c.ride?'<span class="chip">騎乗可'+(c.saddle?'（サドル Lv'+c.saddle+'）':'（サドル不要/なし）')+'</span>':'<span class="chip">騎乗不可</span>')+
+        '<span class="chip'+(c.danger==="最高"||c.danger==="高"?' hot':'')+'">危険度：'+esc(c.danger)+'</span>'+
+      '</div>'+
+      '<p>'+il(c.role)+'</p>'+
+      (c.ability?'<p class="abil"><b>特殊能力・攻撃</b>：'+il(c.ability)+'</p>':'')+
+      (c.prep?'<p class="prep"><b>準備するもの</b>：'+il(c.prep)+'</p>':'')+
+      (c.food&&c.food!=="—"?'<p class="pro">餌：'+il(c.food)+'</p>':'')+
+      (c.harvest&&c.harvest!=="—"?'<p class="pro">得意な採取：'+il(c.harvest)+'</p>':'')+
+      (c.tip?'<p class="note">'+il(c.tip)+'</p>':'')+
+      (maps.length?'<p class="note">出現：'+maps.join(" / ")+'</p>':'')
+    );
+  }).join("")+'</div>';
+
+  $("#main").innerHTML=h;
+  $("#main").querySelectorAll("[data-tag]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexFocus=null; dexFilter.tag=a.dataset.tag; render(); window.scrollTo(0,0); });
+  $("#main").querySelectorAll("[data-map]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexFocus=null; dexFilter.map=a.dataset.map; render(); window.scrollTo(0,0); });
+  const qbox=$("#main").querySelector("#dexq");
+  if(qbox){
+    qbox.oninput=()=>{ dexFilter.q=qbox.value; dexFocus=null; render(); };
+    if(dexFilter.q){ qbox.focus(); qbox.setSelectionRange(qbox.value.length,qbox.value.length); }
+  }
+  $("#main").querySelectorAll("[data-dexclear]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexFilter={tag:"",map:"",q:""}; dexFocus=null; render(); window.scrollTo(0,0); });
+  $("#main").querySelectorAll("[data-dexall]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexFocus=null; render(); window.scrollTo(0,0); });
+  $("#main").querySelectorAll("[data-tomap]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); go(a.dataset.tomap); });
+}
+
+function md(s){
+  return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/`([^`]+)`/g,'<code class="ic">$1</code>');
+}
+/* ---- アイテム名を公式Wikiへリンク ---- */
+function initItems(){
+  ITEMS=(window.ARK_ITEMS&&window.ARK_ITEMS.items)||null;
+  if(!ITEMS) return;
+  const skip=(window.ARK_ITEMS&&window.ARK_ITEMS.prose_skip)||[];
+  const keys=Object.keys(ITEMS).filter(k=>skip.indexOf(k)<0).sort((a,b)=>b.length-a.length)
+    .map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"));
+  ITEM_RE=new RegExp("("+keys.join("|")+")","g");   // 長い名前から順に当てる
+}
+function matLink(n){ // 素材名（「木材／菌糸の木材」のような並列も）を完全一致でリンク
+  return String(n).split("／").map(p=>{
+    const u=ITEMS&&ITEMS[p];
+    return u?'<a class="ilink" href="'+u+'" target="_blank" rel="noopener" title="'+esc(p)+'を公式Wikiで開く">'+esc(p)+'</a>':esc(p);
+  }).join("／");
+}
+function il(s){ // esc/md 済みの断片にアイテムリンクを張る
+  const h=md(s);
+  if(!ITEM_RE) return h;
+  return h.replace(ITEM_RE,m=>'<a class="ilink" href="'+ITEMS[m]+'" target="_blank" rel="noopener" title="'+esc(m)+'を公式Wikiで開く">'+m+'</a>');
+}
+function renderGuide(){
+  const g=DATA.beginner_guide;
+  let h='<h2 class="title">初心者ガイド<span>ARKが初めての人へ／このサーバー用</span></h2>';
+  h+='<div class="lead">'+md(g.intro)+'</div>';
+  h+=toc([["gd-facts","このサーバーの設定"]].concat(g.chapters.map(c=>[c.id,c.title.replace(/^[①-⑮]\s*/,"")]), [["gd-keys","キー操作"]]));
+
+  h+='<section id="gd-facts"><h3>このサーバーはこうなっています（公式より優しい）</h3><ul class="plain">'+
+     g.server_facts.map(t=>'<li>'+md(t)+'</li>').join("")+'</ul></section>';
+
+  g.chapters.forEach(c=>{
+    h+='<section id="'+c.id+'"><h3>'+esc(c.title)+'</h3>';
+    if(c.steps&&c.steps.length){
+      h+='<div class="cards">'+c.steps.map(s=>card('<h4>'+esc(s.h)+'</h4><p>'+il(s.body)+'</p>')).join("")+'</div>';
+    }
+    if(c.table){
+      h+='<table><tr><th>資源</th><th>集め方・おすすめの恐竜</th></tr>'+
+         c.table.map(r=>'<tr><td>'+il(r.res)+'</td><td>'+il(r.how)+'</td></tr>').join("")+'</table>';
+    }
+    if(c.faq){
+      h+='<table><tr><th>困りごと</th><th>対処</th></tr>'+
+         c.faq.map(r=>'<tr><td>'+esc(r.q)+'</td><td>'+il(r.a)+'</td></tr>').join("")+'</table>';
+    }
+    if(c.glossary){
+      h+='<table><tr><th>用語</th><th>意味</th></tr>'+
+         c.glossary.map(r=>'<tr><td>'+esc(r.w)+'</td><td>'+md(r.d)+'</td></tr>').join("")+'</table>';
+    }
+    if(c.tips&&c.tips.length){
+      h+='<ul class="plain">'+c.tips.map(t=>'<li>'+il(t)+'</li>').join("")+'</ul>';
+    }
+    if(c.id==="g4"&&DEX) h+='<p class="note"><a href="#" class="godex" data-mname="">'+
+      '▶ 恐竜図鑑で「テイム方法・準備するもの・特殊能力」を見る（'+DEX.length+'種）</a></p>';
+    if(c.id==="g7"&&NODES) h+='<p class="note"><a href="#" class="goresmap" data-m="the_island">'+
+      '▶ 資源マップで採れる場所の座標を見る</a></p>';
+    h+='</section>';
+  });
+
+  h+='<section id="gd-keys"><h3>キー操作（PC）</h3><table><tr><th>キー</th><th>動作</th></tr>'+
+     g.keys.map(k=>'<tr><td class="coord">'+esc(k.k)+'</td><td>'+esc(k.d)+'</td></tr>').join("")+
+     '</table><p class="note">キー割り当ては オプション → 操作 で変更・確認できます。</p></section>';
+  $("#main").innerHTML=h;
+  bindMap();
+}
+
+function renderClient(){
+  const c=DATA.client_commands;
+  let h='<h2 class="title">個人PCで打つコマンド<span>雲や影を切って軽くする／画面を明るくする</span></h2>';
+  h+='<div class="lead">'+esc(c.intro)+'</div>';
+  h+=toc([["cl-how","使い方"]]
+    .concat(c.presets.map((p,i)=>["cl-p"+i,"おすすめ"+(i+1)]))
+    .concat(c.groups.map((g,i)=>["cl-g"+i,g.title]))
+    .concat([["cl-ini","毎回打つのが面倒なら"],["cl-caut","注意"]]));
+
+  h+='<section id="cl-how"><h3>使い方</h3><ul class="plain">'+c.howto.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></section>';
+
+  c.presets.forEach((p,i)=>{
+    h+='<section id="cl-p'+i+'"><h3>'+esc(p.name)+'</h3>'+
+       p.lines.map(l=>codeBlock(l)).join("")+
+       '<p class="desc">'+esc(p.note)+'</p></section>';
+  });
+
+  c.groups.forEach((g,i)=>{
+    h+='<section id="cl-g'+i+'"><h3>'+esc(g.title)+'</h3><table><tr><th>コマンド</th><th>効果</th><th>見た目の代償</th></tr>'+
+       g.items.map(it=>'<tr><td class="coord">'+esc(it.cmd)+'</td><td>'+esc(it.effect)+'</td><td>'+esc(it.cost)+'</td></tr>').join("")+
+       '</table></section>';
+  });
+
+  h+='<section id="cl-ini"><h3>'+esc(c.persist.title)+'</h3>'+
+     '<p class="desc">場所：'+esc(c.persist.path)+'</p>'+codeBlock(c.persist.sample)+
+     '<ul class="plain">'+c.persist.notes.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></section>';
+
+  h+='<section id="cl-caut"><h3>注意</h3><ul class="plain">'+c.cautions.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></section>';
+  $("#main").innerHTML=h;
+}
+
+function renderNotes(){
+  const n=DATA.asa_notes;
+  let h='<h2 class="title">海外情報メモ<span>英語圏の一次情報・技術記事から</span></h2>';
+  h+='<div class="lead">'+esc(n.intro)+'</div>';
+  h+=toc(n.sections.map((s,i)=>["nt"+i,s.title]).concat([["nt-src","出典"]]));
+  n.sections.forEach((s,i)=>{
+    h+='<section id="nt'+i+'"><h3>'+esc(s.title)+'</h3><ul class="plain">'+
+       s.items.map(t=>'<li>'+esc(t)+'</li>').join("")+'</ul></section>';
+  });
+  h+='<section id="nt-src"><h3>出典</h3><ul class="plain">'+DATA.meta.sources.map(l=>'<li><a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.label)+'</a></li>').join("")+'</ul></section>';
+  $("#main").innerHTML=h;
+}
+
+/* ---- 横断検索 ---- */
+function walk(obj, path, out){
+  if(obj==null) return;
+  if(typeof obj==="string"){ out.push({path:path.join(" › "), text:obj}); return; }
+  if(Array.isArray(obj)){ obj.forEach(v=>walk(v,path,out)); return; }
+  if(typeof obj==="object"){ Object.keys(obj).forEach(k=>walk(obj[k], path.concat(LABEL[k]||k), out)); }
+}
+const LABEL={regions:"地域",bases:"拠点候補",resources:"資源",creatures:"生物",caves:"洞窟",bosses:"ボス",
+  tips:"コツ",map_settings:"マップ別設定",links:"リンク",install:"導入",summary:"概要",settings:"ini設定",
+  commands:"コマンド",ops_tips:"運用メモ",map_codes:"マップ名",items:"",where:"",starter:"序盤テイム",
+  sections:"",intro:"概要",title:"",group:"",
+  danger:"危険生物",unique:"固有生物",name:"",note:"",desc:"",coord:"座標",artifact:"アーティファクト"};
+
+function renderSearch(q){
+  const needle=q.toLowerCase();
+  const groups=[];
+  DATA.maps.forEach(m=>{ const out=[]; walk(m,[m.name_ja],out); groups.push({title:m.name_ja,id:m.id,rows:out}); });
+  const out=[]; walk(DATA.server,["サーバー設定・コマンド"],out);
+  groups.push({title:"サーバー設定・コマンド",id:"server",rows:out});
+  if(DATA.beginner_guide){ const o5=[]; walk(DATA.beginner_guide,["初心者ガイド"],o5);
+    groups.push({title:"初心者ガイド",id:"guide",rows:o5}); }
+  if(NODES){ const o9=[];
+    DATA.maps.forEach(m=>{ const d=NODES[m.id]; if(!d) return;
+      Object.keys(d).forEach(k=>o9.push({path:m.name_ja+" › 資源マップ › "+k,
+        text:k+"（"+d[k].length+"件）　例："+d[k].slice(0,6).join("　")+(d[k].length>6?" …":""), go:"resmap"}));
+    });
+    groups.push({title:"資源マップ",id:"resmap",rows:o9}); }
+  if(ENG){ const oe=[];
+    ENG.forEach(e=>oe.push({path:"エングラム辞典 › Lv"+e.lv,
+      text:(e.ja?e.ja+"（"+e.en+"）":e.en)+" — 必要Lv"+e.lv+"／EP"+e.ep+"／"+e.cat+
+        (e.made?"／作る場所："+e.made:"")+(e.pre&&e.pre.length?"／前提："+e.pre.join("・"):"")+"／"+e.src, go:"engrams"}));
+    groups.push({title:"エングラム辞典",id:"engrams",rows:oe}); }
+  if(SYS){ const o7=[]; walk(SYS,["システム解説"],o7);
+    groups.push({title:"システム解説",id:"sys",rows:o7}); }
+  if(MODS){ const o8=[]; walk(MODS,["MODの話"],o8);
+    groups.push({title:"MODの話",id:"mods",rows:o8}); }
+  if(DEX){ const o6=[];
+    DEX.forEach(c=>{ o6.push({path:"恐竜図鑑 › "+c.ja, text:c.ja+"（"+c.en+"）／テイム："+c.tame+"／餌："+c.food+
+      (c.ability?"／能力："+c.ability:"")+
+      (c.prep?"／準備："+c.prep.replace(/\*\*/g,""):"")+"／"+c.role+
+      (c.harvest&&c.harvest!=="—"?"／採取："+c.harvest:"")+(c.tip?"／"+c.tip:""), go:"dex"}); });
+    groups.push({title:"恐竜図鑑",id:"dex",rows:o6}); }
+  if(DATA.client_commands){ const o3=[]; walk(DATA.client_commands,["個人PCのコマンド"],o3);
+    groups.push({title:"個人PCのコマンド",id:"client",rows:o3}); }
+  if(DATA.asa_notes){ const o2=[]; walk(DATA.asa_notes,["海外情報メモ"],o2);
+    groups.push({title:"海外情報メモ",id:"notes",rows:o2}); }
+  if(SPAWNS){ const o4=[];
+    DATA.maps.forEach(m=>{ const s=SPAWNS[m.id]; if(!s) return;
+      Object.keys(s.groups).forEach(g=>s.groups[g].forEach(x=>o4.push({path:m.name_ja+" › 出現生物 › "+g, text:x, go:m.id})));
+    });
+    groups.push({title:"出現生物一覧",id:"__spawn",rows:o4}); }
+
+  let h='<h2 class="title">検索：'+esc(q)+'</h2>', n=0;
+  groups.forEach(g=>{
+    const hits=g.rows.filter(r=>r.text.toLowerCase().includes(needle));
+    if(!hits.length) return;
+    h+='<section><h3>'+esc(g.title)+'（'+hits.length+'件）</h3>';
+    hits.slice(0,40).forEach(r=>{
+      n++;
+      const t=esc(r.text).replace(new RegExp(esc(q).replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"),m=>"<mark>"+m+"</mark>");
+      h+='<div class="hit" data-go="'+(r.go||g.id)+'"><div class="where">'+esc(r.path)+'</div>'+t+'</div>';
+    });
+    if(hits.length>40) h+='<p class="note">…ほか '+(hits.length-40)+' 件</p>';
+    h+='</section>';
+  });
+  if(!n) h+='<div class="lead">該当なし。ひらがな／カタカナ／英名を変えて試してみてください。</div>';
+  $("#main").innerHTML=h;
+  $("#main").querySelectorAll(".hit").forEach(el=>el.onclick=()=>{ dexFocus=null; go(el.dataset.go); });
+}
+
+$("#q").addEventListener("input", ()=>{ if(DATA) render(); });
+$("#home-link").addEventListener("click", ()=>{ if(DATA) go("home"); });
+
+/* ---- キーボードと「上へ戻る」 ---- */
+if(document.addEventListener) document.addEventListener("keydown", e=>{
+  const t=e.target&&e.target.tagName;
+  if(e.key==="/" && t!=="INPUT" && t!=="TEXTAREA"){ e.preventDefault(); $("#q").focus(); }
+  else if(e.key==="Escape"){ $("#q").value=""; $("#q").blur(); if(DATA) render(); }
+});
+(function(){
+  const b=document.getElementById&&document.getElementById("totop");
+  if(!b||!window.addEventListener) return;
+  b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+  window.addEventListener("scroll",()=>{ b.style.display=window.scrollY>400?"block":"none"; });
+})();
+</script>
+</body>
+</html>

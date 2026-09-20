@@ -1,0 +1,7 @@
+# 作業用の中間ファイル（Wikiからの生データなど）
+data/ark_engrams_raw.json
+tools/engram_pages.txt
+tools/_st_dump.js
+*.tmp
+Thumbs.db
+desktop.ini

@@ -1,0 +1,807 @@
+Aberrant Achatina
+Aberrant Anglerfish
+Aberrant Ankylosaurus
+Aberrant Araneo
+Aberrant Arthropluera
+Aberrant Baryonyx
+Aberrant Beelzebufo
+Aberrant Carbonemys
+Aberrant Carnotaurus
+Aberrant Cnidaria
+Aberrant Coelacanth
+Aberrant Concavenator
+Aberrant Deinosuchus
+Aberrant Dimetrodon
+Aberrant Dimorphodon
+Aberrant Diplocaulus
+Aberrant Diplodocus
+Aberrant Dire Bear
+Aberrant Dodo
+Aberrant Doedicurus
+Aberrant Dung Beetle
+Aberrant Electrophorus
+Aberrant Equus
+Aberrant Fasolasuchus
+Aberrant Gigantopithecus
+Aberrant Gigantoraptor
+Aberrant Iguanodon
+Aberrant Lystrosaurus
+Aberrant Manta
+Aberrant Megalania
+Aberrant Megalosaurus
+Aberrant Meganeura
+Aberrant Moschops
+Aberrant Otter
+Aberrant Oviraptor
+Aberrant Ovis
+Aberrant Paraceratherium
+Aberrant Parasaur
+Aberrant Piranha
+Aberrant Pulmonoscorpius
+Aberrant Purlovia
+Aberrant Raptor
+Aberrant Salmon
+Aberrant Sarco
+Aberrant Spino
+Aberrant Stegosaurus
+Aberrant Titanoboa
+Aberrant Triceratops
+Aberrant Trilobite
+Abominable Snowman
+Abyssal Alpha T-Rex
+Abyssal Ankylosaurus
+Abyssal Moschops
+Abyssal Procoptodon
+Abyssal Reaper King
+Abyssal Reaper Offspring
+Abyssal Reaper Queen
+Abyssal Rex
+Abyssal Stegosaurus
+Abyssal Therizinosaur
+Abyssal Thylacoleo
+Abyssal Xiphactinus
+Abyssal Yutyrannus
+Abyssalus
+Abyssalus (Alpha)
+Abyssalus (Beta)
+Abyssalus (Gamma)
+Abyssalus Tentacle
+Abyssalus Tentacle (Alpha)
+Abyssalus Tentacle (Beta)
+Abyssalus Tentacle (Gamma)
+Achatina
+Acrocanthosaurus
+Allosaurus
+Alpha Basilisk
+Alpha Blood Crystal Wyvern
+Alpha Carnotaurus
+Alpha Chrysaora
+Alpha Corrupted Master Controller
+Alpha Creatures
+Alpha Dakosaurus
+Alpha Deathworm
+Alpha Fire Wyvern
+Alpha Hulking Revenant
+Alpha Karkinos
+Alpha King Titan
+Alpha Leedsichthys
+Alpha Malleocephalus
+Alpha Megalodon
+Alpha Moeder, Master of the Ocean
+Alpha Mosasaur
+Alpha Ossidon
+Alpha Palaeoctopus
+Alpha Raptor
+Alpha Surface Reaper King
+Alpha T-Rex
+Alpha Tridacna
+Alpha Tusoteuthis
+Alpha Water Wyvern
+Alpha X-Triceratops
+Amargasaurus
+Ammonite
+Andrewsarchus
+Anglerfish
+Anglerfish Ghost
+Ankylosaurus
+Ankylosaurus Ghost
+Ankylosaurus/tr
+Araneo
+Archaeopteryx
+Archelon
+Argentavis
+Argentavis Ghost
+Armadoggo
+Arthropluera
+Astral Argentavis
+Astral Boaratos
+Astral Carnotaurus
+Astral Creatures
+Astral Deinosuchus
+Astral Direwolf
+Astral Mammoth
+Astral Megalodon
+Astral Mosasaur
+Astral Pulmonoscorpius Monarch
+Astral Raptor
+Astral Rock Drake
+Astral T-Rex
+Astral Tusoteuthis
+Astrocetus
+Astrodelphis
+Attack Drone
+Aureliax
+Autumn Drakeling
+Autumn Drakeling Ghost
+Baryonyx
+Basilisk
+Basilisk Ghost
+Basilosaurus
+Beelzebufo
+Beta Corrupted Master Controller
+Beta King Titan
+Beta Moeder, Master of the Ocean
+Beyla
+Beyla Spawn
+Bison
+Bloated Revenant
+Blood Crystal Wyvern
+Bloodstalker
+Boaratos
+Brontosaurus
+Broodmother Lysrix
+Broodmother Lysrix (Alpha)
+Broodmother Lysrix (Beta)
+Broodmother Lysrix (Gamma)
+Brute Araneo
+Brute Astrocetus
+Brute Basilosaurus
+Brute Bloodstalker
+Brute Ferox
+Brute Fire Wyvern
+Brute Leedsichthys
+Brute Magmasaur
+Brute Malfunctioned Tek Giganotosaurus
+Brute Malfunctioned Tek Rex
+Brute Mammoth
+Brute Megaloceros
+Brute Plesiosaur
+Brute Reaper King
+Brute Sarco
+Brute Seeker
+Brute Tusoteuthis
+Brute X-Allosaurus
+Brute X-Megalodon
+Brute X-Mosasaurus
+Brute X-Raptor
+Brute X-Rex
+Brute X-Rock Elemental
+Brute X-Spino
+Brute X-Yutyrannus
+Bulbdog
+Bulbdog Ghost
+Bunny Dodo
+Bunny Oviraptor
+Burrowbuck
+Carbonemys
+Carcharodontosaurus
+Carnotaurus
+Castoroides
+Cat
+Cat (Feline Form Skill)
+Cat Ghost
+Ceratosaurus
+Ceratosaurus Ghost
+Cerberax
+Chalicotherium
+Chalk Golem
+Chrysaora
+Cnidaria
+Coelacanth
+Colossus
+Compy
+Concavenator
+Corrupted Arthropluera
+Corrupted Avatar
+Corrupted Carnotaurus
+Corrupted Chalicotherium
+Corrupted Deathworm
+Corrupted Dilophosaur
+Corrupted Dimorphodon
+Corrupted Giganotosaurus
+Corrupted Master Controller
+Corrupted Paraceratherium
+Corrupted Pteranodon
+Corrupted Raptor
+Corrupted Reaper King
+Corrupted Rex
+Corrupted Rock Drake
+Corrupted Spino
+Corrupted Stegosaurus
+Corrupted Survivor
+Corrupted Triceratops
+Corrupted Wyvern
+Cosmo
+Cryolophosaurus
+Crystal Wyvern
+Crystal Wyvern Queen
+Crystal Wyvern Queen (Alpha)
+Crystal Wyvern Queen (Beta)
+Crystal Wyvern Queen (Gamma)
+Cymathoa
+Cymathoa (Alpha)
+Cymathoa (Beta)
+Cymathoa (Gamma)
+Daeodon
+Dakosaurus
+Deathworm
+Defense Unit
+Deinonychus
+Deinonychus Ghost
+Deinosuchus
+Deinotherium
+Desert Titan
+Desert Titan Flock
+Desmodus
+Dilophosaur
+Dimetrodon
+Dimorphodon
+Dinopithecus
+Dinopithecus King
+Dinopithecus King (Alpha)
+Dinopithecus King (Beta)
+Dinopithecus King (Gamma)
+Diplocaulus
+Diplodocus
+Dire Bear
+Dire Polar Bear
+Direwolf
+Direwolf Ghost
+Diseased Leech
+Dodo
+Dodo Wyvern
+DodoRex
+Doedicurus
+Dragon
+Dragon (Alpha)
+Dragon (Beta)
+Dragon (Gamma)
+Drakeling
+Dreadmare
+Dreadnoughtus
+Dung Beetle
+Dunkleosteus
+Eel Minion
+Elderclaw
+Electrophorus
+Elemental Reaper King
+Ember Crystal Wyvern
+Enforcer
+Enigmasaur
+Enraged Corrupted Rex
+Enraged Lightning Rex
+Enraged Lightning Triceratops
+Enraged Triceratops
+Equus
+Erymanthian & Kalydonios
+Eurypterid
+Exo-Mek
+Experimental Giganotosaurus
+Fasolasuchus
+Featherlight
+Fenrir
+Fenrisúlfr
+Fenrisúlfr (Alpha)
+Fenrisúlfr (Beta)
+Fenrisúlfr (Gamma)
+Ferox
+Ferox (Large)
+Fire Wyvern
+Fjordhawk
+Flovis
+Forest Titan
+Forest Wyvern
+Fractalis
+Fractalis (Alpha)
+Fractalis (Beta)
+Fractalis (Gamma)
+Gacha
+GachaClaus
+Gallimimus
+Gamma Corrupted Master Controller
+Gamma King Titan
+Gamma Moeder, Master of the Ocean
+Gargantar
+Gasbags
+Ghost Anglerfish (Summon Ghost Fish Skill)
+Giant Bee
+Giant Queen Bee
+Giant Worker Bee
+Gigadesmodus
+Giganotosaurus
+Gigantopithecus
+Gigantoraptor
+Gigantoraptor Ghost
+Gloon
+Glowbug
+Glowtail
+Golden Striped Brute Megalodon
+Golden Striped Megalodon
+Grand Tortugar
+Grendel
+Grendel (Alpha)
+Griffin
+Hati and Sköll
+Helicoprion
+Helper Wisp (Wisp of Industry Skill)
+Hesperornis
+Homarus
+Hover Skiff
+Hulking Revenant
+Human
+Hyaenodon
+Hydraskos
+Hydraskos (Alpha)
+Hydraskos (Beta)
+Hydraskos (Gamma)
+Ice Golem
+Ice Titan
+Ice Wyvern
+Iceworm Male
+Iceworm Queen
+Ichthyornis
+Ichthyosaurus
+Iguanodon
+Injured Brute Reaper King
+Insect Swarm
+Istiophorus
+Jerboa
+Jerboa Elf
+Jug Bug
+Kairuku
+Kaprosuchus
+Karkinos
+Kathreptis
+Kentrosaurus
+King Titan
+Kirayli
+Kroaratos
+Lamprey
+Lava Elemental
+Leech
+Leedsichthys
+Lightning Arthropluera
+Lightning Carnotaurus
+Lightning Chalicotherium
+Lightning Deathworm
+Lightning Dilophosaur
+Lightning Dimorphodon
+Lightning Fire Wyvern
+Lightning Giganotosaurus
+Lightning Infused Rex
+Lightning Paraceratherium
+Lightning Pteranodon
+Lightning Raptor
+Lightning Reaper King
+Lightning Rock Drake
+Lightning Spino
+Lightning Stegosaurus
+Lightning Wyvern
+Liopleurodon
+Lost King
+Lost King (Alpha)
+Lost King (Beta)
+Lost King (Gamma)
+Lost Queen
+Lost Queen (Alpha)
+Lost Queen (Beta)
+Lost Queen (Gamma)
+Love Bird
+Love Bug
+Lumina
+Lymantria
+Lystrosaurus
+Macro-Summoner
+Macrophage
+Maeguana
+Maewing
+Magmasaur
+Malfunctioned Attack Drone
+Malfunctioned Defense Unit
+Malfunctioned Enforcer
+Malfunctioned Mek Knight
+Malfunctioned Tek Giganotosaurus
+Malfunctioned Tek Parasaur
+Malfunctioned Tek Quetzal
+Malfunctioned Tek Raptor
+Malfunctioned Tek Rex
+Malfunctioned Tek Stegosaurus
+Malfunctioned Tek Stryder
+Malfunctioned Tek Triceratops
+Malleocephalus
+Malwyn
+Mammoth
+Managarmr
+Manta
+Manticore
+Manticore (Alpha)
+Manticore (Beta)
+Manticore (Gamma)
+Mantis
+Mantis Ghost
+Mantis Shrimp
+Mega Mek
+Megachelon
+Megalania
+Megaloceros
+Megalodon
+Megalodon Ghost
+Megalosaurus
+Meganeura
+Megapithecus
+Megapithecus (Alpha)
+Megapithecus (Beta)
+Megapithecus (Gamma)
+Megaraptor
+Megatherium
+Mek
+Mesopithecus
+Microraptor
+Minotarchos
+Minotaur
+Moeder, Master of the Ocean
+Monodon
+Morellatops
+Mosasaurus
+Moschops
+Mouser
+Mudpuppy
+Nameless
+Natrix
+Natrix (Alpha)
+Natrix (Beta)
+Natrix (Gamma)
+Neophyte
+Noglin
+Nunatak
+Nunatak (Alpha)
+Nunatak (Beta)
+Nunatak (Gamma)
+Oasisaur
+Ocepechelon
+Oil Jug Bug
+Onchopristis
+Onyc
+Ossidon
+Otter
+Otter Ghost
+Overseer
+Overseer (Alpha)
+Overseer (Beta)
+Overseer (Gamma)
+Oviraptor
+Ovis
+Pachy
+Pachyrhinosaurus
+Palaeoctopus
+Paraceratherium
+Parakeet Fish School
+Parasaur
+Parrot
+Party Dodo
+Pegomastax
+Pegomastax Grouch
+Pelagornis
+Phiomia
+Phoenix
+Piranha
+Pirate
+Pirate Captain
+Pirate Dodo
+Pirate Lookout
+Pirate Mesopithecus
+Pirate Pegomastax
+Pirate Pistoleer
+Pirate Sibling
+Pirate Swashbuckler
+Pirate Sweeper
+Pirate Trapshooter
+Pirate Wrangler
+Plesiosaur
+Poison Wyvern
+Polar Bear
+Polar Purlovia
+Procoptodon
+Pteranodon
+Pulmonoscorpius
+Pulmonoscorpius Monarch
+Purlovia
+Pygocentrus
+Pygocentrus (Alpha)
+Pygocentrus (Beta)
+Pygocentrus (Gamma)
+Pyromane
+Qarmoutus
+Quetzal
+R-Acrocanthosaurus
+R-Allosaurus
+R-Brontosaurus
+R-Carbonemys
+R-Carnotaurus
+R-Cryolophosaurus
+R-Daeodon
+R-Deinotherium
+R-Dilophosaur
+R-Direwolf
+R-Equus
+R-Gasbags
+R-Giganotosaurus
+R-Helicoprion
+R-Megatherium
+R-Parasaur
+R-Procoptodon
+R-Quetzal
+R-Reaper King
+R-Reaper Queen
+R-Snow Owl
+R-Thylacoleo
+R-Velonasaur
+Raptor
+Rare X-Sabertooth Salmon
+Ravager
+Reaper
+Reaper King
+Reaper Prince
+Reaper Queen
+Reindeer
+Revenant
+Revenant Brontosaurus
+Revenant Carnotaurus
+Revenant Dilophosaur
+Revenant Dimorphodon
+Revenant Direwolf
+Revenant Iguanodon
+Revenant Malwyn
+Revenant Mammoth
+Revenant Ossidon
+Revenant Parasaur
+Revenant Pteranodon
+Revenant Raptor
+Revenant Rex
+Revenant Sabertooth
+Revenant Spino
+Revenant Stegosaurus
+Revenant Therizinosaur
+Revenant Troodon
+Revenant Veilwyn
+Revenant Yutyrannus
+Rex
+Rex Ghost
+Rhyniognatha
+Rhyniognatha Drone
+Riftcrawler
+Riftwalker
+Rock Drake
+Rock Elemental
+Rockwell
+Rockwell (Alpha)
+Rockwell (Beta)
+Rockwell (Gamma)
+Rockwell Node
+Rockwell Node (Alpha)
+Rockwell Node (Beta)
+Rockwell Node (Gamma)
+Rockwell Prime
+Rockwell Prime (Alpha)
+Rockwell Prime (Beta)
+Rockwell Prime (Gamma)
+RockwellTentacle
+RockwellTentacle (Alpha)
+RockwellTentacle (Beta)
+RockwellTentacle (Gamma)
+Roll Rat
+Rubble Bear
+Rubble Golem
+Sabertooth
+Sabertooth Salmon
+Santa's Big Helper
+Sarco
+Scorched Acrocanthosaurus
+Scout
+Scrap Golem
+Seahorse
+Seeker
+Shadowmane
+Shallocis
+Shallocis (Alpha)
+Shallocis (Beta)
+Shallocis (Gamma)
+Shallocis Tentacle
+Shallocis Tentacle (Alpha)
+Shallocis Tentacle (Beta)
+Shallocis Tentacle (Gamma)
+Shark
+Shastasaurus
+Shinehorn
+Sinomacrops
+Sir-5rM8
+Skeletal Bronto
+Skeletal Carnotaurus
+Skeletal Fire Wyvern
+Skeletal Giganotosaurus
+Skeletal Jerboa
+Skeletal Quetzal
+Skeletal Raptor
+Skeletal Rex
+Skeletal Stego
+Skeletal Trike
+Skeleton
+Skeleton Piercer
+Skeleton Snarer
+Skeleton Warden
+Slidy 'N Slippery Kairuku
+Snow Owl
+Snow Owl Ghost
+Solwyn
+Spino
+Spino Ghost
+Spirit Dire Bear
+Spirit Direbear
+Spirit Direwolf
+Spirit Direwolf & Spirit Dire Bear
+Spirit Direwolf (Spirit Beasts Skill)
+Spring Drakeling
+Spring Drakeling Ghost
+Squid
+Stegosaurus
+Steinbjörn
+Stereolepis
+Subterranean Reaper King
+Succumbed Revenant Rex
+Succumbed Revenant Therizinosaur
+Summer Drakeling
+Summer Drakeling Ghost
+Summoner
+Super Turkey
+Surface Reaper King
+Surface Reaper King Ghost
+Takifugu
+Tapejara
+Tek Giganotosaurus
+Tek Parasaur
+Tek Quetzal
+Tek Raptor
+Tek Rex
+Tek Stegosaurus
+Tek Stryder
+Tek Triceratops
+Terror Bird
+Thanatos
+Therizinosaur
+Thodes
+Thodes (Alpha)
+Thodes (Beta)
+Thodes (Gamma)
+Thorny Dragon
+Thrall
+Thrall Archer
+Thrall Bounty Hunter
+Thrall Cavalry Commander
+Thrall Deadeye
+Thrall Demolisher
+Thrall Enforcer
+Thrall Forgemaster
+Thrall Gunslinger
+Thrall Herald
+Thrall Marauder
+Thrall Marksman
+Thrall Piercer
+Thrall Scattershot
+Thrall Snarer
+Thrall Subjugator
+Thrall Warden
+Thunnus
+Thylacoleo
+Tidepup
+Tiktaalik
+Titanoboa
+Titanomyrma
+Titanomyrma Drone
+Titanomyrma Soldier
+Titanosaur
+Triceratops
+Tridacna
+Trilobite
+Troodon
+Tropeognathus
+Tropical Crystal Wyvern
+Tusoteuthis
+Umbra
+Unicorn
+Valentines Coelacanth
+Veilwyn
+Veilwyn Ghost
+Velonasaur
+Voidwyrm
+VR Allosaurus
+VR Araneo
+VR Argentavis
+VR Arthropluera
+VR Astrodelphis
+VR Bloodstalker
+VR Carnotaurus
+VR Chalicotherium
+VR Dilophosaur
+VR Dimorphodon
+VR Enforcer
+VR Ferox
+VR Kaprosuchus
+VR Karkinos
+VR Lymantria
+VR Mantis
+VR Megalania
+VR Megatherium
+VR Onyc
+VR Pachy
+VR Parasaur
+VR Pulmonoscorpius
+VR Raptor
+VR Ravager
+VR Rex
+VR Shadowmane
+VR Stegosaurus
+VR Tapejara
+VR Terror Bird
+VR Titanoboa
+VR Triceratops
+VR Velonasaur
+Vulcanite
+Vulcanithys
+Vulcanithys (Alpha)
+Vulcanithys (Beta)
+Vulcanithys (Gamma)
+Vulture
+Water Jug Bug
+Water Wyvern
+Winter Drakeling
+Winter Drakeling Ghost
+Woolly Rhino
+Wyvern
+X-Acrocanthosaurus
+X-Allosaurus
+X-Ankylosaurus
+X-Archelon
+X-Argentavis
+X-Basilosaurus
+X-Concavenator
+X-Cryolophosaurus
+X-Deinosuchus
+X-Dunkleosteus
+X-Helicoprion
+X-Ichthyosaurus
+X-Megalodon
+X-Mosasaurus
+X-Otter
+X-Paraceratherium
+X-Parasaur
+X-Raptor
+X-Rex
+X-Rock Elemental
+X-Sabertooth
+X-Sabertooth Salmon
+X-Spino
+X-Tapejara
+X-Triceratops
+X-Woolly Rhino
+X-Xiphactinus
+X-Yutyrannus
+Xiphactinus
+Yeti
+Yi Ling
+Yi Ling Ghost
+Yutyrannus
+Zombie Fire Wyvern
+Zombie Lightning Wyvern
+Zombie Poison Wyvern
+Zombie Wyvern
+Zomdodo
