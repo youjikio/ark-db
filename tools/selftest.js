@@ -105,6 +105,26 @@ const test = `
   if ((document.querySelector("#main").innerHTML.match(/class="ilink"/g) || []).length < 20)
     fail.push("システム解説にアイテムリンクが出ていない");
 
+  // 初心者ガイドの便利恐竜リスト
+  view = "guide"; render();
+  const GD = document.querySelector("#main").innerHTML;
+  const U = (DATA.beginner_guide && DATA.beginner_guide.utility_dinos) || null;
+  if (!U) fail.push("便利恐竜リストのデータが無い");
+  else {
+    const rows = (GD.match(/class="uwhen"/g) || []).length;
+    const want = U.groups.reduce((n, g) => n + g.items.length, 0);
+    const links = (GD.match(/class="dexlink"/g) || []).length;
+    console.log("便利恐竜リスト: " + rows + " / " + want + " 種（図鑑リンク " + links + " 個・" + U.groups.length + "グループ）");
+    if (rows < want) fail.push("便利恐竜リストの行が足りない: " + rows + "/" + want);
+    if (links < want) fail.push("便利恐竜リストから図鑑へのリンクが足りない: " + links + "/" + want);
+    if (GD.indexOf("gd-dinos") < 0) fail.push("便利恐竜リストの見出し(gd-dinos)が無い");
+    U.groups.forEach(g => g.items.forEach(it => {
+      const m = it.n.match(/（([^（）]+)）s*$/);
+      const en = m && m[1].trim();
+      const c = en && (DEX.find(d => d.en === en) || DEX.find(d => d.alt && d.alt.indexOf(en) >= 0));
+      if (!c) fail.push("便利恐竜リストの「" + it.n + "」が図鑑に無い");
+    }));
+  }
   // エングラム辞典
   view = "engrams"; render();
   const EG = document.querySelector("#main").innerHTML;

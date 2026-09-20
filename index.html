@@ -135,6 +135,10 @@
   a.dexlink:hover{color:var(--accent2)}
   .wlink{color:#6f7a66;text-decoration:none;font-size:11px}
   a.wlink:hover{color:var(--accent)}
+  /* 初心者ガイド：便利恐竜リスト */
+  h4.ugh{margin:16px 0 6px;font-size:14px;color:var(--accent2);border-left:3px solid var(--accent2);padding-left:8px}
+  table.udino td.uwhen{white-space:nowrap;color:var(--accent);font-size:12px}
+  table.udino td.uhow{color:#b9c2ad;font-size:12.5px}
   /* エングラム辞典：効果・素材 */
   .edesc{font-size:11.5px;color:#9fae93;margin-top:3px;line-height:1.5}
   .edesc.en{color:#78856e;font-style:italic}
@@ -1039,11 +1043,34 @@ function il(s){ // esc/md 済みの断片にアイテムリンクを張る
   if(!ITEM_RE) return h;
   return h.replace(ITEM_RE,m=>'<a class="ilink" href="'+ITEMS[m]+'" target="_blank" rel="noopener" title="'+esc(m)+'を公式Wikiで開く">'+m+'</a>');
 }
+/* ---- 初心者ガイド：便利恐竜リスト ---- */
+function utilityDinoSection(u){
+  if(!u||!u.groups) return "";
+  let h='<section id="gd-dinos"><h3>便利恐竜リスト（先に揃えると一気に楽になる子たち）</h3>';
+  h+='<div class="lead">'+il(u.intro)+'</div>';
+  if(u.order) h+='<p class="note">'+il(u.order)+'</p>';
+  u.groups.forEach(gr=>{
+    h+='<h4 class="ugh">'+esc(gr.g)+'</h4>';
+    h+='<table class="udino"><tr><th>名前</th><th>時期</th><th>何が便利か</th><th>テイムのしかた</th></tr>'+
+      gr.items.map(it=>'<tr><td>'+spawnLink(it.n)+'</td><td class="uwhen">'+esc(it.when||"")+'</td>'+
+        '<td>'+il(it.why||"")+'</td><td class="uhow">'+il(it.how||"")+'</td></tr>').join("")+'</table>';
+  });
+  if(u.notes&&u.notes.length) h+='<ul class="plain">'+u.notes.map(t=>'<li>'+il(t)+'</li>').join("")+'</ul>';
+  h+='<p class="note"><a href="#" class="godex" data-mname="">▶ 恐竜図鑑で全'+(DEX?DEX.length:0)+'種を見る（テイム方法・準備するもの・特殊能力つき）</a></p>';
+  h+='</section>';
+  return h;
+}
 function renderGuide(){
   const g=DATA.beginner_guide;
   let h='<h2 class="title">初心者ガイド<span>ARKが初めての人へ／このサーバー用</span></h2>';
   h+='<div class="lead">'+md(g.intro)+'</div>';
-  h+=toc([["gd-facts","このサーバーの設定"]].concat(g.chapters.map(c=>[c.id,c.title.replace(/^[①-⑮]\s*/,"")]), [["gd-keys","キー操作"]]));
+  const tocItems=[["gd-facts","このサーバーの設定"]];
+  g.chapters.forEach(c=>{
+    tocItems.push([c.id,c.title.replace(/^[①-⑮]\s*/,"")]);
+    if(c.id==="g7"&&g.utility_dinos) tocItems.push(["gd-dinos","便利恐竜リスト"]);
+  });
+  tocItems.push(["gd-keys","キー操作"]);
+  h+=toc(tocItems);
 
   h+='<section id="gd-facts"><h3>このサーバーはこうなっています（公式より優しい）</h3><ul class="plain">'+
      g.server_facts.map(t=>'<li>'+md(t)+'</li>').join("")+'</ul></section>';
@@ -1073,6 +1100,7 @@ function renderGuide(){
     if(c.id==="g7"&&NODES) h+='<p class="note"><a href="#" class="goresmap" data-m="the_island">'+
       '▶ 資源マップで採れる場所の座標を見る</a></p>';
     h+='</section>';
+    if(c.id==="g7"&&g.utility_dinos) h+=utilityDinoSection(g.utility_dinos);
   });
 
   h+='<section id="gd-keys"><h3>キー操作（PC）</h3><table><tr><th>キー</th><th>動作</th></tr>'+
@@ -1080,6 +1108,7 @@ function renderGuide(){
      '</table><p class="note">キー割り当ては オプション → 操作 で変更・確認できます。</p></section>';
   $("#main").innerHTML=h;
   bindMap();
+  bindDexLinks();
 }
 
 function renderClient(){
