@@ -146,6 +146,20 @@ const test = `
     if (!ast) fail.push("MOD（Astraeos）の便利恐竜が入っていない");
     if (all.filter(i => (i.rec||0) < 3).length) fail.push("便利恐竜リストに★2以下が混ざっている");
   }
+  // 全マップの出現一覧が、もれなく図鑑に繋がっているか
+  {
+    let rows = 0, noLink = 0; const sample = [];
+    DATA.maps.forEach(mp => {
+      const sp = SPAWNS && SPAWNS[mp.id]; if (!sp) return;
+      Object.values(sp.groups).forEach(arr => arr.forEach(x => {
+        rows++;
+        const html = spawnLink(x);
+        if (html.indexOf("dexlink") < 0) { noLink++; if (sample.length < 6) sample.push(mp.id + ": " + x); }
+      }));
+    });
+    console.log("出現一覧→図鑑のリンク: " + (rows - noLink) + " / " + rows + " 行");
+    if (noLink) fail.push("図鑑に繋がらない出現行が " + noLink + " 件: " + sample.join(" / "));
+  }
   // 初心者ガイドの便利恐竜リスト
   view = "guide"; render();
   const GD = document.querySelector("#main").innerHTML;

@@ -454,7 +454,7 @@ function bindMap(){
   };
 }
 /* ---- 出現生物 ---- */
-const EN_OK=/^[A-Za-z0-9 '\-\.]+$/;
+const EN_OK=/^[A-Za-z0-9 '\-\.,&:()]+$/;
 // 変種の頭につく語（重なることがある：Brute X-Rex など）。はがしながら図鑑の種を探す
 const DEX_PREFIX=/^(Aberrant|Corrupted|Alpha|Beta|Gamma|Tek|Enraged|Brute|Malfunctioned|Summoned|Injured|Subterranean|Elemental|Surface|Spirit|Skeletal|Zombie|Bunny|Super|Eerie|Party|Valentines|Love|Lightning|Hulking|Bloated|Astral|Abyssal|Succumbed|Experimental|Golden Striped|Rare|Spring|Summer|Autumn|Winter|Polar|Dire|X-|R-|VR)[\s-]*/;
 // Wikiの略称・別つづり → 図鑑の英名
@@ -482,7 +482,8 @@ function spawnLink(x){
   if(en&&en.indexOf("／")>=0) en=en.split("／")[0].trim();   // 「Maeguana／Maewingの変種」対応
   if(!en||!EN_OK.test(en)) return esc(x);
   const c=dexFind(en);
-  const wiki='<a class="wlink" href="https://ark.wiki.gg/wiki/'+encodeURIComponent(en.replace(/ /g,"_"))+
+  const wikiName=en.replace(/\s*\((Large|Small)\)\s*$/,"").trim();
+  const wiki='<a class="wlink" href="https://ark.wiki.gg/wiki/'+encodeURIComponent(wikiName.replace(/ /g,"_"))+
              '" target="_blank" rel="noopener" title="公式Wikiで開く">↗</a>';
   if(c) return '<a href="#" class="dexlink" data-dex="'+esc(c.id)+'" title="図鑑：'+esc(c.ja)+'">'+esc(x)+'</a> '+wiki;
   return esc(x)+' '+wiki;
