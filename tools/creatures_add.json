@@ -1,0 +1,208 @@
+{
+ "_meta": "図鑑への追加分。出現生物一覧に載っているのに図鑑が無かった種（tools/lint_links.js で検出）。node tools/add_creatures3.js で data/ark_creatures.json にマージする。出典＝ark.wiki.gg の各ページ（2026-09-21 取得）。",
+ "alt": {
+  "Tusoteuthis": [
+   "Squid"
+  ],
+  "Megalodon": [
+   "Shark"
+  ]
+ },
+ "creatures": [
+  {
+   "id": "cat",
+   "ja": "ネコ",
+   "en": "Cat",
+   "tags": [
+    "便利",
+    "レア"
+   ],
+   "tame": "手渡し",
+   "food": "肉食（生肉など）",
+   "ride": false,
+   "saddle": null,
+   "danger": "低",
+   "role": "エイプリルフールで追加された小型のネコ。戦闘や採取の役には立たない愛玩枠",
+   "harvest": "—",
+   "tip": "The Island／The Center／Ragnarok／Valguero／Astraeos／Lost Colony に出る。気絶させずに餌を手渡してテイムする。",
+   "prep": "生肉などの肉／攻撃しないこと（気絶テイム不可）",
+   "ability": "特になし（愛玩用）／気絶テイム不可・騎乗不可",
+   "rec": 2,
+   "rec_why": "実用性は無い愛玩枠。見た目を楽しむ用"
+  },
+  {
+   "id": "super_turkey",
+   "ja": "スーパーターキー",
+   "en": "Super Turkey",
+   "tags": [
+    "イベント",
+    "危険",
+    "不可"
+   ],
+   "tame": "不可",
+   "food": "—",
+   "ride": false,
+   "saddle": null,
+   "danger": "高",
+   "role": "感謝祭イベント『Turkey Trial』の期間だけ出る七面鳥。倒すとイベント素材が出る",
+   "harvest": "イベント素材（ワシュボーンなど）",
+   "tip": "イベント期間外には出ない。倒すとDodoRexの召喚素材が手に入る。",
+   "prep": "テイム不可。倒すための武器（イベント中のみ出現）",
+   "ability": "口から炎を吐く／イベント期間限定・テイム不可",
+   "rec": 0,
+   "rec_why": "イベント限定の敵"
+  },
+  {
+   "id": "scorpion_monarch",
+   "ja": "サソリの女王（プルモノスコルピウス・モナーク）",
+   "en": "Pulmonoscorpius Monarch",
+   "tags": [
+    "Astraeos",
+    "危険",
+    "不可"
+   ],
+   "tame": "不可",
+   "food": "—",
+   "ride": false,
+   "saddle": null,
+   "danger": "最高",
+   "role": "Astraeosに出る巨大なサソリ。通常のサソリとは別格の大型脅威",
+   "harvest": "キチン・角質など",
+   "tip": "Astraeos（公式版）の大型脅威。テイムはできない。近づかれると気絶させられるので遠距離から。",
+   "prep": "テイム不可。倒すなら遠距離武器と足の速い騎乗生物",
+   "ability": "強烈な毒針で気絶値を与える／テイム不可",
+   "rec": 0,
+   "rec_why": "テイム不可の大型脅威"
+  },
+  {
+   "id": "nunatak",
+   "ja": "ヌナタク",
+   "en": "Nunatak",
+   "tags": [
+    "ボス",
+    "Ragnarok",
+    "不可"
+   ],
+   "tame": "不可",
+   "food": "—",
+   "ride": false,
+   "saddle": null,
+   "danger": "最高",
+   "role": "Ragnarok（ASA版）で追加されたガーディアンボス。氷の巨大生物",
+   "harvest": "ボス報酬",
+   "tip": "ASAのRagnarokで追加されたボス。挑む前に装備と恐竜を育ててから。",
+   "prep": "テイム不可。ボス戦用の装備・恐竜・回復役",
+   "ability": "氷属性の強力な攻撃／テイム不可",
+   "rec": 0,
+   "rec_why": "ボス"
+  },
+  {
+   "id": "grendel",
+   "ja": "グレンデル",
+   "en": "Grendel",
+   "tags": [
+    "ボス",
+    "不可"
+   ],
+   "tame": "不可",
+   "food": "—",
+   "ride": false,
+   "saddle": null,
+   "danger": "最高",
+   "role": "Valguero（ASA版）で追加されたガーディアンボス",
+   "harvest": "ボス報酬",
+   "tip": "ASAのValgueroで追加されたボス。",
+   "prep": "テイム不可。ボス戦用の装備・恐竜・回復役",
+   "ability": "大型の近接攻撃／テイム不可",
+   "rec": 0,
+   "rec_why": "ボス"
+  },
+  {
+   "id": "parakeet_fish",
+   "ja": "インコ魚の群れ",
+   "en": "Parakeet Fish School",
+   "tags": [
+    "水中",
+    "危険",
+    "不可"
+   ],
+   "tame": "不可",
+   "food": "—",
+   "ride": false,
+   "saddle": null,
+   "danger": "中",
+   "role": "Genesisの海に湧く小魚の群れ。群れ単位で襲ってくる",
+   "harvest": "生魚・魚の油",
+   "tip": "見た目は小さいが群れで噛んでくる。泳いで移動するときは注意。",
+   "prep": "テイム不可。倒すなら水中用の武器か騎乗生物",
+   "ability": "群れで一斉に噛みつく／テイム不可",
+   "rec": 0,
+   "rec_why": "テイム不可の水中の雑魚"
+  },
+  {
+   "id": "insect_swarm",
+   "ja": "虫の群れ（ブレードワスプ）",
+   "en": "Insect Swarm",
+   "tags": [
+    "危険",
+    "不可"
+   ],
+   "tame": "不可",
+   "food": "—",
+   "ride": false,
+   "saddle": null,
+   "danger": "高",
+   "role": "Genesisの沼に湧く虫の群れ。防具を溶かしながらまとわりつく",
+   "harvest": "—",
+   "tip": "近接では倒しにくい。火や範囲攻撃、または逃げるのが正解。",
+   "prep": "テイム不可。逃げるための足か範囲攻撃",
+   "ability": "群れでまとわりつき防具を傷める／テイム不可",
+   "rec": 0,
+   "rec_why": "テイム不可の厄介な群れ"
+  },
+  {
+   "id": "corrupted_avatar",
+   "ja": "コラプトアバター",
+   "en": "Corrupted Avatar",
+   "tags": [
+    "Genesis",
+    "危険",
+    "不可"
+   ],
+   "tame": "不可",
+   "food": "—",
+   "ride": false,
+   "saddle": null,
+   "danger": "高",
+   "role": "Genesis: Part 1 に出るコラプト個体。プレイヤーを模した敵",
+   "harvest": "—",
+   "tip": "コラプト種なのでテイムはできない。ミッション関連で出会う。",
+   "prep": "テイム不可。倒すための装備",
+   "ability": "プレイヤーのように武器を使う／テイム不可",
+   "rec": 0,
+   "rec_why": "テイム不可のコラプト個体"
+  },
+  {
+   "id": "pirate",
+   "ja": "海賊（NPC）",
+   "en": "Pirate",
+   "tags": [
+    "有料DLC",
+    "危険",
+    "不可"
+   ],
+   "tame": "不可",
+   "food": "—",
+   "ride": false,
+   "saddle": null,
+   "danger": "中",
+   "role": "有料パック『Tides of Fortune』で追加された敵NPC。生き物ではなく人間の海賊",
+   "harvest": "戦利品",
+   "tip": "テイムはできない敵対NPC。倒すと戦利品が手に入る。",
+   "prep": "テイム不可。戦うための武器と防具",
+   "ability": "武器で攻撃してくる敵NPC／テイム不可",
+   "rec": 0,
+   "rec_why": "テイム不可の敵NPC"
+  }
+ ]
+}

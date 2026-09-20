@@ -228,7 +228,7 @@ window.ARK_SPAWNS = {
      "フェニックス（Phoenix）",
      "ポイズンワイバーン（Poison Wyvern）",
      "ミクロラプトル（Microraptor）",
-     "ライトニングライトニングワイバーン（Lightning Wyvern）",
+     "ライトニングワイバーン（Lightning Wyvern）",
      "リマントリア（蛾）（Lymantria）",
      "ワイバーン（Wyvern）",
      "始祖鳥（Archaeopteryx）"
@@ -511,23 +511,23 @@ window.ARK_SPAWNS = {
      "アルファ地表のリーパーキング（Alpha Surface Reaper King）"
     ],
     "ボス・特殊・大型脅威": [
-     "エレメンタルエレメンタル・リーパーキング（Elemental Reaper King）",
+     "エレメンタル・リーパーキング（Elemental Reaper King）",
      "カルキノス（カニ）（Karkinos）",
+     "サーフェスリーパーキング（Surface Reaper King）",
      "ナメーレス（Nameless）",
      "バジリスク（Basilisk）",
      "リーパーキング（Reaper King）",
      "リーパークイーン（Reaper Queen）",
      "ロックウェル（ボス）（Rockwell）",
-     "地下の地下のリーパーキング（Subterranean Reaper King）",
-     "地表のサーフェスリーパーキング（Surface Reaper King）"
+     "地下のリーパーキング（Subterranean Reaper King）"
     ],
     "イベント限定": [
+     "サーフェスリーパーキングの幽霊（Surface Reaper King Ghost）",
      "スーパーターキー（Super Turkey）",
      "スケルトンステゴサウルス（Skeletal Stego）",
      "スケルトントリケラトプス（Skeletal Trike）",
      "バジリスクの幽霊（Basilisk Ghost）",
-     "バルブドッグの幽霊（Bulbdog Ghost）",
-     "地表のサーフェスリーパーキングの幽霊（Surface Reaper King Ghost）"
+     "バルブドッグの幽霊（Bulbdog Ghost）"
     ]
    }
   },
@@ -623,7 +623,7 @@ window.ARK_SPAWNS = {
      "ユティラヌス（Yutyrannus）",
      "ラプター（Raptor）",
      "リストロサウルス（Lystrosaurus）",
-     "激昂激昂トリケラトプス（Enraged Triceratops）"
+     "激昂トリケラトプス（Enraged Triceratops）"
     ],
     "空・飛行": [
      "アルゲンタヴィス（Argentavis）",
@@ -685,7 +685,7 @@ window.ARK_SPAWNS = {
      "コラプトリーパーキング（Corrupted Reaper King）",
      "コラプトロックドレイク（Corrupted Rock Drake）",
      "コラプトワイバーン（Corrupted Wyvern）",
-     "激昂コラプト激昂コラプトレックス（Enraged Corrupted Rex）"
+     "激昂コラプトレックス（Enraged Corrupted Rex）"
     ],
     "機械": [
      "エンフォーサー（Enforcer）",
@@ -769,9 +769,9 @@ window.ARK_SPAWNS = {
      "ジャグバグ（油）（Oil Jug Bug）",
      "ステゴサウルス（Stegosaurus）",
      "スピノサウルス（Spino）",
-     "スピリットDirebear（Spirit Direbear）",
      "スピリットダイアウルフ（Spirit Direwolf）",
      "スピリットダイアベア（Spirit Dire Bear）",
+     "スピリットダイアベア（Spirit Direbear）",
      "スプリングドレイクリング（Spring Drakeling）",
      "ソーニードラゴン（Thorny Dragon）",
      "ダイアウルフ（Direwolf）",
@@ -848,7 +848,7 @@ window.ARK_SPAWNS = {
      "ポイズンワイバーン（Poison Wyvern）",
      "ミクロラプトル（Microraptor）",
      "メガニューラ（トンボ）（Meganeura）",
-     "ライトニングライトニングワイバーン（Lightning Wyvern）",
+     "ライトニングワイバーン（Lightning Wyvern）",
      "リニオグナタ（Rhyniognatha）",
      "リマントリア（蛾）（Lymantria）",
      "ワイバーン（Wyvern）",
@@ -1266,7 +1266,6 @@ window.ARK_SPAWNS = {
      "ヤツメウナギ（Lamprey）"
     ],
     "有料パック・DLC由来": [
-     "Pirate（Pirate）〔Tides of Fortune〕",
      "アルマドッゴ（Armadoggo）〔Bob's Tall Tales（Wasteland War）〕",
      "エルダークロー（Elderclaw）〔Fantastic Tames〕",
      "オウム（Parrot）〔Tides of Fortune〕",
@@ -1275,7 +1274,8 @@ window.ARK_SPAWNS = {
      "ドレイクリング（Drakeling）〔Fantastic Tames（Drakelings）〕",
      "バローバック（Burrowbuck）〔Fantastic Tames〕",
      "ピュロメイン（Pyromane）〔Fantastic Tames〕",
-     "リーパー（Reaper）〔Aquatica〕"
+     "リーパー（Reaper）〔Aquatica〕",
+     "海賊（NPC）（Pirate）〔Tides of Fortune〕"
     ],
     "アルファ種（強化個体）": [
      "アルファX-トリケラトプス（Alpha X-Triceratops）",
@@ -1284,8 +1284,8 @@ window.ARK_SPAWNS = {
      "アルファモエダー（海のボス）（Alpha Moeder, Master of the Ocean）"
     ],
     "コラプト（テイム不可）": [
-     "コラプトアバター（Corrupted Avatar）",
-     "コラプトコラプト・マスター・コントローラー（ボス）（Corrupted Master Controller）"
+     "コラプト・マスター・コントローラー（ボス）（Corrupted Master Controller）",
+     "コラプトアバター（Corrupted Avatar）"
     ],
     "機械": [
      "ホバースキッフ（Hover Skiff）"
@@ -1296,6 +1296,7 @@ window.ARK_SPAWNS = {
      "カルキノス（カニ）（Karkinos）",
      "ガンマコラプトマスター・コントローラー（Gamma Corrupted Master Controller）",
      "ガンマモエダー（海のボス）（Gamma Moeder, Master of the Ocean）",
+     "サーフェスリーパーキング（Surface Reaper King）",
      "デスワーム（Deathworm）",
      "ナメーレス（Nameless）",
      "バジリスク（Basilisk）",
@@ -1306,8 +1307,7 @@ window.ARK_SPAWNS = {
      "モエダー（海のボス）（Moeder, Master of the Ocean）",
      "リーパーキング（Reaper King）",
      "リーパークイーン（Reaper Queen）",
-     "ロックエレメンタル（Rock Elemental）",
-     "地表のサーフェスリーパーキング（Surface Reaper King）"
+     "ロックエレメンタル（Rock Elemental）"
     ]
    }
   },
@@ -1347,9 +1347,9 @@ window.ARK_SPAWNS = {
      "モレラトプス（ラクダ）（Morellatops）",
      "ラベジャー（Ravager）",
      "ロールラット（Roll Rat）",
+     "激昂トリケラトプス（Enraged Triceratops）",
      "激昂ライトニングティラノサウルス（レックス）（Enraged Lightning Rex）",
-     "激昂ライトニングトリケラトプス（Enraged Lightning Triceratops）",
-     "激昂激昂トリケラトプス（Enraged Triceratops）"
+     "激昂ライトニングトリケラトプス（Enraged Lightning Triceratops）"
     ],
     "空・飛行": [
      "オニク（コウモリ）（Onyc）",
@@ -1388,7 +1388,7 @@ window.ARK_SPAWNS = {
      "アルファファイアワイバーン（Alpha Fire Wyvern）"
     ],
     "コラプト（テイム不可）": [
-     "激昂コラプト激昂コラプトレックス（Enraged Corrupted Rex）"
+     "激昂コラプトレックス（Enraged Corrupted Rex）"
     ],
     "ボス・特殊・大型脅威": [
      "エリュマントス＆カリュドニオス（Erymanthian & Kalydonios）",
@@ -1444,9 +1444,9 @@ window.ARK_SPAWNS = {
      "モレラトプス（ラクダ）（Morellatops）",
      "ラベジャー（Ravager）",
      "ロールラット（Roll Rat）",
+     "激昂トリケラトプス（Enraged Triceratops）",
      "激昂ライトニングティラノサウルス（レックス）（Enraged Lightning Rex）",
-     "激昂ライトニングトリケラトプス（Enraged Lightning Triceratops）",
-     "激昂激昂トリケラトプス（Enraged Triceratops）"
+     "激昂ライトニングトリケラトプス（Enraged Lightning Triceratops）"
     ],
     "空・飛行": [
      "オニク（コウモリ）（Onyc）",
@@ -1485,7 +1485,7 @@ window.ARK_SPAWNS = {
      "アルファファイアワイバーン（Alpha Fire Wyvern）"
     ],
     "コラプト（テイム不可）": [
-     "激昂コラプト激昂コラプトレックス（Enraged Corrupted Rex）"
+     "激昂コラプトレックス（Enraged Corrupted Rex）"
     ],
     "ボス・特殊・大型脅威": [
      "エリュマントス＆カリュドニオス（Erymanthian & Kalydonios）",

@@ -69,12 +69,15 @@ ASA本体が Unreal Engine 5.8 に上がる。MODとサーバープラグイン�
 | `data/ark_resource_nodes.json` | 資源ノードの座標（資源マップ用・約1,870件） |
 | `tools/selftest.js` | ビューアの自己テスト。全ページ描画・ピン数・リンク数・検索・トリビュート表を確認 |
 | `tools/fetch_engrams.js` / `tools/build_engrams.js` | エングラムの取得と、日本語名づけ・MOD分の追加 |
+| `tools/creatures_add.json` / `tools/add_creatures3.js` | 出現一覧にいるのに図鑑が無かった種の追加（`lint_links.js` で検出→公式Wikiで確認して追記） |
+| `tools/add_aliases.js` | 図鑑の別名（英語の変種名・日本語の表記ゆれ）。表記ゆれ検索に使う |
 | `tools/recommend.json` / `tools/build_recommend.js` | 恐竜図鑑の**おすすめ度**（196種を手動で格付け）。JSONを直して `node tools/build_recommend.js` で `data/ark_creatures.json` に反映 |
 | `tools/utility_dinos_add.json` / `tools/merge_utility_dinos.js` | 便利恐竜リストへの**追加分**。`merge_utility_dinos.js` で本体JSONに取り込む（重複は入らない） |
 | `tools/utility_dinos.json` / `tools/add_utility_dinos.js` | 初心者ガイドの**便利恐竜リスト**（35種）。JSONを直して `node tools/add_utility_dinos.js` を実行すると `data/ark_maps.json` に反映（何度でも実行可・図鑑との突き合わせつき） |
 | `tools/desc_extra.json` | エングラムの効果説明（手書き107件・英名キー）。分類からの自動説明で足りないものをここに書く |
 | `tools/lint_ja.js` | **日本語化の残り**を洗い出す（英語のまま残っている名前・分類・作る場所など） |
 | `tools/ja_artifacts.js` | マップのアーティファクト名を日本語化（何度実行しても二重にならない） |
+| `tools/lint_links.js` | **リンクと整合性の粗さがし**（出現一覧→図鑑に繋がらない種／テイム不可なのに★が付いている等の矛盾／出現一覧に出てこない種）。index.html の判定をそのまま読み込んで検査する |
 | `tools/lint_data.js` | **データの粗さがし**（空欄・座標の範囲外・重複・Wikiとの不一致・「要確認」の残り） |
 | `tools/verify_saddles.js` | サドル必要レベルを公式Wikiと照合（`--fix` で自動修正） |
 | `tools/fetch_boss_tributes.js` | ボスの召喚に必要なもの（γ/β/α）を公式Wikiから取得 → `data/ark_bosses.json` |

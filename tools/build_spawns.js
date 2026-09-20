@@ -74,7 +74,7 @@ const JA = {
   "Rubble Golem":"ラブルゴーレム","Sabertooth":"サーベルタイガー","Sabertooth Salmon":"サーベルサーモン",
   "Sarco":"サルコスクス","Scout":"スカウト","Seeker":"シーカー","Shinehorn":"シャインホーン",
   "Snow Owl":"スノーオウル","Spino":"スピノサウルス","Stegosaurus":"ステゴサウルス",
-  "Surface Reaper King":"サーフェスリーパーキング","Tapejara":"タペヤラ","Terror Bird":"テラーバード",
+  "Surface Reaper King":"サーフェスリーパーキング","Pirate":"海賊（NPC）","Tapejara":"タペヤラ","Terror Bird":"テラーバード",
   "Therizinosaur":"テリジノサウルス","Thorny Dragon":"ソーニードラゴン","Thylacoleo":"ティラコレオ",
   "Titanoboa":"ティタノボア","Titanomyrma":"ティタノミルマ（アリ）","Titanosaur":"ティタノサウルス",
   "Triceratops":"トリケラトプス","Trilobite":"三葉虫","Troodon":"トロオドン","Tusoteuthis":"トゥソテウティス（イカ）",
@@ -164,6 +164,10 @@ const BOSSY = /(Broodmother|Megapithecus|^Dragon$|Overseer|Rockwell|Manticore|(F
 const EVENT = /(Ghost|Skeletal|Bunny|Zombie|Super Turkey|Party |Valentines|Love |Reindeer|Elf|Santa|GachaClaus|Eerie)/;
 const PREFIX = /^(Aberrant|Corrupted|Alpha|Beta|Gamma|Tek|Enraged Corrupted|Enraged|Brute|Malfunctioned|X-|R-|VR |Summoned |Injured |Subterranean |Elemental |Surface )\s*/;
 
+// Wikiの表記ゆれ（同じ生き物の別つづり）
+const SAME = { "Direbear":"Dire Bear", "T-Rex":"Rex", "Stego":"Stegosaurus",
+  "Trike":"Triceratops", "Bronto":"Brontosaurus", "Mosasaur":"Mosasaurus", "Quetz":"Quetzal",
+  "Salmon":"Sabertooth Salmon", "Paracer":"Paraceratherium", "Argent":"Argentavis" };
 function ja(name){
   // イベント系（幽霊・スケルトン・バニーなど）も日本語にする
   const jaOnly = s => ja(s).replace(/（[^（）]*）$/, "");   // 和名部分だけ取り出す
@@ -176,6 +180,9 @@ function ja(name){
   for (const [re, head] of EV) {
     if (re.test(name)) return head + jaOnly(name.replace(re, "")) + "（" + name + "）";
   }
+  // 辞書に完全一致があるときは、接頭辞をはがさずそのまま使う
+  // （はがすと「激昂」＋「激昂トリケラトプス」のように頭が二重になる）
+  if (JA[name]) return JA[name] + "（" + name + "）";
   // 接頭辞は重なることがある（例: Brute X-Rex）ので、はがしながら和名を組み立てる
   const HEADS = [[/^Aberrant\s+/,"アベラント"],[/^Corrupted\s+/,"コラプト"],[/^Alpha\s+/,"アルファ"],
     [/^Beta\s+/,"ベータ"],[/^Gamma\s+/,"ガンマ"],[/^Tek\s+/,"テック"],[/^Brute\s+/,"ブルート"],
@@ -194,7 +201,8 @@ function ja(name){
   let tail = "";
   const lg = rest.match(/^(.+?)\s*\((Large|Small)\)$/);
   if (lg) { rest = lg[1]; tail = lg[2] === "Large" ? "（大）" : "（小）"; }
-  const j = JA[name] || JA[rest] || JA[rest.replace(/^(Polar|Dire)\s+/, "")] || null;
+  const alias = SAME[rest] || rest;
+  const j = JA[name] || JA[rest] || JA[alias] || JA[rest.replace(/^(Polar|Dire)\s+/, "")] || null;
   return (j ? head + j + tail : name) + "（" + name + "）";
 }
 function packOf(name){

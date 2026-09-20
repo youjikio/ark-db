@@ -455,18 +455,33 @@ function bindMap(){
 }
 /* ---- 出現生物 ---- */
 const EN_OK=/^[A-Za-z0-9 '\-\.]+$/;
-const DEX_PREFIX=/^(Aberrant|Corrupted|Alpha|Tek|Enraged Corrupted|Polar|Dire|Skeletal|Zombie|Bunny)\s+/;
+// 変種の頭につく語（重なることがある：Brute X-Rex など）。はがしながら図鑑の種を探す
+const DEX_PREFIX=/^(Aberrant|Corrupted|Alpha|Beta|Gamma|Tek|Enraged|Brute|Malfunctioned|Summoned|Injured|Subterranean|Elemental|Surface|Spirit|Skeletal|Zombie|Bunny|Super|Eerie|Party|Valentines|Love|Lightning|Hulking|Bloated|Astral|Abyssal|Succumbed|Experimental|Golden Striped|Rare|Spring|Summer|Autumn|Winter|Polar|Dire|X-|R-|VR)[\s-]*/;
+// Wikiの略称・別つづり → 図鑑の英名
+const DEX_SAME={"T-Rex":"Rex","Stego":"Stegosaurus","Trike":"Triceratops","Bronto":"Brontosaurus",
+  "Mosasaur":"Mosasaurus","Quetz":"Quetzal","Salmon":"Sabertooth Salmon","Direbear":"Dire Bear",
+  "Paracer":"Paraceratherium","Argent":"Argentavis","Reaper Queen":"Reaper King","Raptor Prime":"Raptor"};
+function dexFind(en){
+  if(!DEX) return null;
+  const one=n=>n?(DEX.find(d=>d.en===n)||DEX.find(d=>d.alt&&d.alt.indexOf(n)>=0)):null;
+  let n=String(en).trim().replace(/\s*\((Large|Small)\)\s*$/,"").replace(/\s+(Ghost|Prime)$/,"").trim();
+  for(let i=0;i<5;i++){
+    const c=one(n)||one(DEX_SAME[n]);
+    if(c) return c;
+    const m=n.match(DEX_PREFIX); if(!m||!m[0]) break;
+    n=n.slice(m[0].length).trim();
+  }
+  return null;
+}
 
 // 「ティラノサウルス（レックス）（Rex）」→ 図鑑があれば内部リンク、無ければ公式Wikiへの外部リンク
 function spawnLink(x){
-  const m=String(x).match(/（([^（）]+)）\s*$/);
+  const body=String(x).replace(/〔[^〕]*〕\s*$/,"").trim();   // 末尾の〔Fantastic Tames〕などを外す
+  const m=body.match(/（([^（）]+)）\s*$/);
   let en=m?m[1].trim():null;
   if(en&&en.indexOf("／")>=0) en=en.split("／")[0].trim();   // 「Maeguana／Maewingの変種」対応
   if(!en||!EN_OK.test(en)) return esc(x);
-  let c=DEX?DEX.find(d=>d.en===en):null;
-  if(!c&&DEX) c=DEX.find(d=>d.alt&&d.alt.indexOf(en)>=0);          // まとめて1項目にしてある種（ワイバーン等）
-  if(!c&&DEX){ const base=en.replace(DEX_PREFIX,"");
-    c=DEX.find(d=>d.en===base)||DEX.find(d=>d.alt&&d.alt.indexOf(base)>=0); }
+  const c=dexFind(en);
   const wiki='<a class="wlink" href="https://ark.wiki.gg/wiki/'+encodeURIComponent(en.replace(/ /g,"_"))+
              '" target="_blank" rel="noopener" title="公式Wikiで開く">↗</a>';
   if(c) return '<a href="#" class="dexlink" data-dex="'+esc(c.id)+'" title="図鑑：'+esc(c.ja)+'">'+esc(x)+'</a> '+wiki;
@@ -954,7 +969,8 @@ function dexMaps(c){ return dexMapEntries(c).map(e=>e.name); }
 function stars(n){ return n?"★".repeat(n)+"☆".repeat(5-n):""; }
 function recChip(c){
   if(!c.rec) return '<span class="chip">おすすめ度：—（テイム対象外）</span>';
-  return '<span class="chip rec r'+c.rec+'" title="おすすめ度 '+c.rec+' / 5">'+stars(c.rec)+'</span>';
+  const kill=c.tame==="不可"?'<span class="chip">倒して使う（テイム不可）</span>':"";
+  return '<span class="chip rec r'+c.rec+'" title="おすすめ度 '+c.rec+' / 5">'+stars(c.rec)+'</span>'+kill;
 }
 const REC_STEPS=[["0","すべて"],["5","★5だけ（いないと詰まる）"],["4","★4以上（強くおすすめ）"],["3","★3以上（用途がはっきり）"]];
 function renderDex(){
