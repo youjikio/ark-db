@@ -3,6 +3,8 @@
 自宅のASA専用サーバー（The Island / Astraeos MOD版）で遊ぶための攻略・設定リファレンス。
 作成日：2026-09-18 ／ 最終更新：2026-09-20
 
+公開ページ：https://youjikio.github.io/ark-db/
+
 ## 使い方
 
 `index.html` をダブルクリックしてブラウザで開くだけ。サーバーもネットも要らない。
