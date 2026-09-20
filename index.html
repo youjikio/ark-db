@@ -970,7 +970,7 @@ function renderDex(){
     if(dexFilter.rec) list=list.filter(c=>(c.rec||0)>=dexFilter.rec);
     if(dexFilter.q){
       const k=dexFilter.q.toLowerCase();
-      list=list.filter(c=>[c.ja,c.en,c.role,c.ability,c.prep,c.tame,c.harvest,(c.tags||[]).join(" ")]
+      list=list.filter(c=>[c.ja,c.en,c.role,c.ability,c.prep,c.tame,c.harvest,(c.tags||[]).join(" "),(c.alias||[]).join(" "),(c.alt||[]).join(" ")]
         .join(" ").toLowerCase().indexOf(k)>=0);
     }
   }

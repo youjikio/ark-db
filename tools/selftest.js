@@ -127,6 +127,12 @@ const test = `
   const firstJa = DEX.slice().sort((a,b)=>(b.rec||0)-(a.rec||0))[0].ja;
   if (sorted.indexOf(firstJa) < 0) fail.push("おすすめ順の並べ替えが効いていない");
   dexSort = ""; dexFilter = { tag:"", map:"", q:"", rec:0 };
+  // 表記ゆれ・別名で引けるか
+  [["メイグアナ","マエグアナ"],["ユウティラヌス","ユティラヌス"],["ビーバー","カストロイデス"],["アルゲンタビス","アルゲンタヴィス"]].forEach(p=>{
+    dexFilter = { tag:"", map:"", q:p[0], rec:0 }; render();
+    if (document.querySelector("#main").innerHTML.indexOf(p[1]) < 0) fail.push("図鑑で「"+p[0]+"」から「"+p[1]+"」が引けない");
+  });
+  dexFilter = { tag:"", map:"", q:"", rec:0 };
 
   // 便利恐竜リストの出現マップ表示
   {
