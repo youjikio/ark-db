@@ -135,6 +135,14 @@
   a.dexlink:hover{color:var(--accent2)}
   .wlink{color:#6f7a66;text-decoration:none;font-size:11px}
   a.wlink:hover{color:var(--accent)}
+  /* おすすめ度 */
+  .chip.rec{letter-spacing:1px;color:#e8c96a;border-color:#6a5a28;background:#201d10}
+  .chip.rec.r5{color:#ffd95e;border-color:#8a7330;background:#272110}
+  p.recwhy{font-size:12.5px;color:#cbd6bd;margin:4px 0;border-left:2px solid #6a5a28;padding-left:8px}
+  td.urec{white-space:nowrap;color:#e8c96a;letter-spacing:1px;font-size:11px}
+  td.uwhere{white-space:nowrap;font-size:11.5px;color:#9fae93}
+  td.uwhere.mod{color:var(--accent2)}
+
   /* 初心者ガイド：便利恐竜リスト */
   h4.ugh{margin:16px 0 6px;font-size:14px;color:var(--accent2);border-left:3px solid var(--accent2);padding-left:8px}
   table.udino td.uwhen{white-space:nowrap;color:var(--accent);font-size:12px}
@@ -183,7 +191,7 @@ const $ = (s,r=document)=>r.querySelector(s);
 const esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let DATA=null, SPAWNS=null, DEX=null, SYS=null, MODS=null, NODES=null, LEGEND={}, ITEMS=null, ITEM_RE=null,
     ENG=null, engFilter={lv:"",src:"",q:""},
-    view="home", dexFilter={tag:"",map:"",q:""}, resMapId=null, dexFocus=null, resSolo=null;
+    view="home", dexFilter={tag:"",map:"",q:"",rec:0}, dexSort="", resMapId=null, dexFocus=null, resSolo=null;
 
 // 左メニューの「エングラム一覧」の項目（種類, 表示名, 説明）
 const ENG_NAV=[
@@ -649,7 +657,11 @@ function renderHome(){
        '<p class="desc">用途タグで図鑑を絞り込みます。テイム方法・準備するもの・特殊能力つき。</p>'+
        '<div class="toc"><b>用途</b>'+tags.map(t=>
          '<a href="#" data-dexgo="'+esc(t[0])+'">'+esc(t[0])+'（'+t[1]+'）</a>').join("")+
-       '<a href="#" data-dexgo="">すべて見る</a></div></section>';
+       '<a href="#" data-dexgo="">すべて見る</a></div>'+
+       '<div class="toc"><b>おすすめ度</b>'+
+       '<a href="#" data-dexrec="5">★5 いないと詰まる（'+DEX.filter(c=>c.rec===5).length+'）</a>'+
+       '<a href="#" data-dexrec="4">★4以上 強くおすすめ（'+DEX.filter(c=>c.rec>=4).length+'）</a>'+
+       '<a href="#" data-guidego="gd-dinos">▶ 初心者向けの「便利恐竜リスト」を見る</a></div></section>';
   }
 
   // 目的別
@@ -691,6 +703,12 @@ function renderHome(){
     if(k==="lv") engFilter.lv=val; else if(k==="q") engFilter.q=val; else if(k==="src") engFilter.src=val;
     go("engrams");
   });
+  $("#main").querySelectorAll("[data-dexrec]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexFocus=null; dexFilter={tag:"",map:"",q:"",rec:+a.dataset.dexrec}; dexSort="rec"; go("dex"); });
+  $("#main").querySelectorAll("[data-guidego]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); go("guide");
+    const id=a.dataset.guidego;
+    setTimeout(()=>{ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },30); });
   $("#main").querySelectorAll("[data-dexgo]").forEach(a=>a.onclick=e=>{
     e.preventDefault(); dexFocus=null; dexFilter={tag:a.dataset.dexgo,map:"",q:""}; go("dex");
   });
@@ -933,6 +951,12 @@ function dexMapEntries(c){
   return out;
 }
 function dexMaps(c){ return dexMapEntries(c).map(e=>e.name); }
+function stars(n){ return n?"★".repeat(n)+"☆".repeat(5-n):""; }
+function recChip(c){
+  if(!c.rec) return '<span class="chip">おすすめ度：—（テイム対象外）</span>';
+  return '<span class="chip rec r'+c.rec+'" title="おすすめ度 '+c.rec+' / 5">'+stars(c.rec)+'</span>';
+}
+const REC_STEPS=[["0","すべて"],["5","★5だけ（いないと詰まる）"],["4","★4以上（強くおすすめ）"],["3","★3以上（用途がはっきり）"]];
 function renderDex(){
   const all=DEX;
   const tags=[]; all.forEach(c=>c.tags.forEach(t=>{ if(tags.indexOf(t)<0) tags.push(t); }));
@@ -943,6 +967,7 @@ function renderDex(){
   if(!focus){
     if(dexFilter.tag) list=list.filter(c=>c.tags.indexOf(dexFilter.tag)>=0);
     if(dexFilter.map) list=list.filter(c=>dexMaps(c).indexOf(dexFilter.map)>=0);
+    if(dexFilter.rec) list=list.filter(c=>(c.rec||0)>=dexFilter.rec);
     if(dexFilter.q){
       const k=dexFilter.q.toLowerCase();
       list=list.filter(c=>[c.ja,c.en,c.role,c.ability,c.prep,c.tame,c.harvest,(c.tags||[]).join(" ")]
@@ -969,7 +994,7 @@ function renderDex(){
   if(focus) h+='<div class="toc"><b>1種だけ表示中</b><a href="#" data-dexall="1">◀ すべての生き物（'+all.length+'）に戻る</a></div>';
   h+='<div class="toc"><b>名前・能力で絞る</b>'+
      '<input id="dexq" type="search" value="'+esc(dexFilter.q)+'" placeholder="例：レックス／Rex／回復／壁を登る">'+
-     ((dexFilter.q||dexFilter.tag||dexFilter.map)?'<a href="#" data-dexclear="1">絞り込みを解除</a>':'')+'</div>';
+     ((dexFilter.q||dexFilter.tag||dexFilter.map||dexFilter.rec||dexSort)?'<a href="#" data-dexclear="1">絞り込みを解除</a>':'')+'</div>';
   h+='<div class="toc"><b>用途で絞る</b>'+
      '<a href="#" data-tag="">すべて（'+all.length+'）</a>'+
      tags.map(t=>'<a href="#" data-tag="'+esc(t)+'"'+(dexFilter.tag===t?' style="border-color:var(--accent);color:var(--accent)"':'')+'>'+esc(t)+'</a>').join("")+
@@ -979,6 +1004,10 @@ function renderDex(){
      mapNames.map(t=>'<a href="#" data-map="'+esc(t)+'"'+(dexFilter.map===t?' style="border-color:var(--accent);color:var(--accent)"':'')+'>'+esc(t)+'</a>').join("")+
      '</div>';
 
+  if(dexSort==="rec"&&!focus) list=list.slice().sort((a,b)=>(b.rec||0)-(a.rec||0));
+  h+='<div class="toc"><b>おすすめ度で絞る</b>'+
+     REC_STEPS.map(x=>'<a href="#" data-drec="'+x[0]+'"'+((dexFilter.rec+"")===x[0]?' style="border-color:var(--accent);color:var(--accent)"':'')+'>'+esc(x[1])+'</a>').join("")+
+     '<a href="#" data-dsort="'+(dexSort==="rec"?"":"rec")+'"'+(dexSort==="rec"?' style="border-color:var(--accent);color:var(--accent)"':'')+'>'+(dexSort==="rec"?"✓ おすすめ順":"おすすめ順に並べる")+'</a></div>';
   h+='<p class="desc">'+list.length+' / '+all.length+' 種を表示中'+
      ((dexFilter.tag||dexFilter.map||dexFilter.q)?'（絞り込み：'+esc([dexFilter.q,dexFilter.tag,dexFilter.map].filter(Boolean).join(" / "))+'）':'')+
      (list.length===0?'　該当なし。ひらがな／カタカナ／英名を変えて試してください。':'')+'</p>';
@@ -991,8 +1020,10 @@ function renderDex(){
         '<span class="chip">テイム：'+esc(c.tame)+'</span>'+
         (c.ride?'<span class="chip">騎乗可'+(c.saddle?'（サドル Lv'+c.saddle+'）':'（サドル不要/なし）')+'</span>':'<span class="chip">騎乗不可</span>')+
         '<span class="chip'+(c.danger==="最高"||c.danger==="高"?' hot':'')+'">危険度：'+esc(c.danger)+'</span>'+
+        recChip(c)+
       '</div>'+
       '<p>'+il(c.role)+'</p>'+
+      (c.rec_why?'<p class="recwhy"><b>おすすめ理由</b>：'+il(c.rec_why)+'</p>':'')+
       (c.ability?'<p class="abil"><b>特殊能力・攻撃</b>：'+il(c.ability)+'</p>':'')+
       (c.prep?'<p class="prep"><b>準備するもの</b>：'+il(c.prep)+'</p>':'')+
       (c.food&&c.food!=="—"?'<p class="pro">餌：'+il(c.food)+'</p>':'')+
@@ -1013,9 +1044,13 @@ function renderDex(){
     if(dexFilter.q){ qbox.focus(); qbox.setSelectionRange(qbox.value.length,qbox.value.length); }
   }
   $("#main").querySelectorAll("[data-dexclear]").forEach(a=>a.onclick=e=>{
-    e.preventDefault(); dexFilter={tag:"",map:"",q:""}; dexFocus=null; render(); window.scrollTo(0,0); });
+    e.preventDefault(); dexFilter={tag:"",map:"",q:"",rec:0}; dexSort=""; dexFocus=null; render(); window.scrollTo(0,0); });
   $("#main").querySelectorAll("[data-dexall]").forEach(a=>a.onclick=e=>{
     e.preventDefault(); dexFocus=null; render(); window.scrollTo(0,0); });
+  $("#main").querySelectorAll("[data-drec]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexFocus=null; dexFilter.rec=+a.dataset.drec; render(); window.scrollTo(0,0); });
+  $("#main").querySelectorAll("[data-dsort]").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); dexSort=a.dataset.dsort; render(); window.scrollTo(0,0); });
   $("#main").querySelectorAll("[data-tomap]").forEach(a=>a.onclick=e=>{
     e.preventDefault(); go(a.dataset.tomap); });
 }
@@ -1047,12 +1082,18 @@ function il(s){ // esc/md 済みの断片にアイテムリンクを張る
 function utilityDinoSection(u){
   if(!u||!u.groups) return "";
   let h='<section id="gd-dinos"><h3>便利恐竜リスト（先に揃えると一気に楽になる子たち）</h3>';
+  h+='<p class="note">★＝恐竜図鑑のおすすめ度（★5＝いないと詰まる）。「出る場所」は<b>このサーバーの2マップ</b>のどちらで会えるかです（出現生物データから自動）。</p>';
   h+='<div class="lead">'+il(u.intro)+'</div>';
   if(u.order) h+='<p class="note">'+il(u.order)+'</p>';
+  const WHERE={"両方":"Island/Astraeos","Island":"Island","Astraeos":"Astraeos","他マップ":"別マップ"};
   u.groups.forEach(gr=>{
     h+='<h4 class="ugh">'+esc(gr.g)+'</h4>';
-    h+='<table class="udino"><tr><th>名前</th><th>時期</th><th>何が便利か</th><th>テイムのしかた</th></tr>'+
-      gr.items.map(it=>'<tr><td>'+spawnLink(it.n)+'</td><td class="uwhen">'+esc(it.when||"")+'</td>'+
+    if(gr.note) h+='<p class="note">'+il(gr.note)+'</p>';
+    h+='<table class="udino"><tr><th>名前</th><th>おすすめ</th><th>時期</th><th>出る場所</th><th>何が便利か</th><th>テイムのしかた</th></tr>'+
+      gr.items.map(it=>'<tr><td>'+spawnLink(it.n)+'</td>'+
+        '<td class="urec" title="おすすめ度 '+(it.rec||0)+' / 5">'+(it.rec?stars(it.rec):"—")+'</td>'+
+        '<td class="uwhen">'+esc(it.when||"")+'</td>'+
+        '<td class="uwhere'+(it.where==="Astraeos"?' mod':'')+'">'+esc(WHERE[it.where]||it.where||"")+'</td>'+
         '<td>'+il(it.why||"")+'</td><td class="uhow">'+il(it.how||"")+'</td></tr>').join("")+'</table>';
   });
   if(u.notes&&u.notes.length) h+='<ul class="plain">'+u.notes.map(t=>'<li>'+il(t)+'</li>').join("")+'</ul>';

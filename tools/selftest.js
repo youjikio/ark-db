@@ -105,6 +105,41 @@ const test = `
   if ((document.querySelector("#main").innerHTML.match(/class="ilink"/g) || []).length < 20)
     fail.push("システム解説にアイテムリンクが出ていない");
 
+  // 恐竜図鑑のおすすめ度
+  view = "dex"; dexFilter = { tag:"", map:"", q:"", rec:0 }; dexSort = ""; render();
+  const DX2 = document.querySelector("#main").innerHTML;
+  const recChips = (DX2.match(/class="chip rec/g) || []).length;
+  const noRec = DEX.filter(c => c.rec === undefined || c.rec === null).length;
+  const why = DEX.filter(c => c.rec >= 4 && !c.rec_why).length;
+  const dist = {}; DEX.forEach(c => dist[c.rec] = (dist[c.rec] || 0) + 1);
+  console.log("おすすめ度: ★5 " + (dist[5]||0) + " / ★4 " + (dist[4]||0) + " / ★3 " + (dist[3]||0) +
+    " / ★2 " + (dist[2]||0) + " / 対象外 " + (dist[0]||0) + "（カード表示 " + recChips + " 件）");
+  if (noRec) fail.push("おすすめ度が無い生き物がいる: " + noRec + "件");
+  if (why) fail.push("★4以上なのにおすすめ理由が無い: " + why + "件");
+  if (recChips < 100) fail.push("図鑑カードにおすすめ度が出ていない: " + recChips);
+  if (DX2.indexOf("おすすめ度で絞る") < 0) fail.push("おすすめ度の絞り込みUIが無い");
+  dexFilter.rec = 5; render();
+  const only5 = document.querySelector("#main").innerHTML;
+  if ((only5.match(/class="card"/g) || []).length !== (dist[5]||0))
+    fail.push("★5の絞り込み件数が合わない");
+  dexFilter.rec = 0; dexSort = "rec"; render();
+  const sorted = document.querySelector("#main").innerHTML;
+  const firstJa = DEX.slice().sort((a,b)=>(b.rec||0)-(a.rec||0))[0].ja;
+  if (sorted.indexOf(firstJa) < 0) fail.push("おすすめ順の並べ替えが効いていない");
+  dexSort = ""; dexFilter = { tag:"", map:"", q:"", rec:0 };
+
+  // 便利恐竜リストの出現マップ表示
+  {
+    const U2 = (DATA.beginner_guide && DATA.beginner_guide.utility_dinos) || { groups: [] };
+    const all = [].concat.apply([], U2.groups.map(g => g.items));
+    const noWhere = all.filter(i => !i.where).length;
+    const ast = all.filter(i => i.where === "Astraeos").length;
+    console.log("便利恐竜リストの出現: Island " + all.filter(i=>i.where==="Island").length +
+      " / 両方 " + all.filter(i=>i.where==="両方").length + " / Astraeos " + ast);
+    if (noWhere) fail.push("出る場所が入っていない便利恐竜がいる: " + noWhere + "件");
+    if (!ast) fail.push("MOD（Astraeos）の便利恐竜が入っていない");
+    if (all.filter(i => (i.rec||0) < 3).length) fail.push("便利恐竜リストに★2以下が混ざっている");
+  }
   // 初心者ガイドの便利恐竜リスト
   view = "guide"; render();
   const GD = document.querySelector("#main").innerHTML;
@@ -166,6 +201,8 @@ const test = `
     if (HM.indexOf(k) < 0) fail.push("ホームに " + k + " が無い");
   });
   if (HM.indexOf("エングラムから探す") < 0) fail.push("ホームのエングラム索引が無い");
+  if (HM.indexOf("data-dexrec") < 0) fail.push("ホームにおすすめ度の入口が無い");
+  if (HM.indexOf("data-guidego") < 0) fail.push("ホームから便利恐竜リストへの入口が無い");
   if (HM.indexOf("生き物から探す") < 0) fail.push("ホームの生き物索引が無い");
   if (HM.indexOf("2026-09-30") < 0) fail.push("ホームにUE5.8の注意が出ていない");
 
